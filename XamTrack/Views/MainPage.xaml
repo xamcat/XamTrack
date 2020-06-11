@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<mvvm:ViewBase  xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms" 
+                xmlns="http://xamarin.com/schemas/2014/forms"
+                xmlns:vm="clr-namespace:XamTrack.ViewModels"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="XamTrack.Views.MainPage"
+             x:TypeArguments="vm:MainViewModel">
+
+    <StackLayout>
+        
+        
+        <Label Text="{Binding Name}" 
+           HorizontalOptions="Center"
+           VerticalOptions="CenterAndExpand" />
+
+        <Label Text="{Binding Lat}"/>
+        <Label Text="{Binding Lon}"/>
+
+    </StackLayout>
+
+</mvvm:ViewBase>
