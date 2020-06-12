@@ -1,25 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<mvvm:ViewBase  xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms" 
-                xmlns="http://xamarin.com/schemas/2014/forms"
-                xmlns:vm="clr-namespace:XamTrack.Core.ViewModels"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             x:Class="XamTrack.Views.MainPage"
-             x:TypeArguments="vm:MainViewModel">
+<mvvm:ViewBase  
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:XamTrack.Core.ViewModels;assembly=XamTrack.Core"
+    xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms" 
+    xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    mc:Ignorable="d"
+    x:Class="XamTrack.Views.MainPage"
+    x:TypeArguments="vm:MainViewModel">
 
-    <StackLayout>
-        
-        
-        <Label Text="{Binding Name}" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
+    <pv:PancakeView HorizontalOptions="FillAndExpand" HeightRequest="150" WidthRequest="300" BorderThickness="4" >
+        <pv:PancakeView.BackgroundGradientStops>
+            <pv:GradientStopCollection>
+                <pv:GradientStop Color="white" Offset="0" />
+                <pv:GradientStop Color="MediumPurple" Offset="1" />
+            </pv:GradientStopCollection>
+        </pv:PancakeView.BackgroundGradientStops>
+        <FlexLayout Direction="Column" JustifyContent="SpaceEvenly">
 
-        <Label Text="{Binding Lat}"/>
-        <Label Text="{Binding Lon}"/>
+            
+            <Label Text="XamTrack IoT" FontSize="50" HorizontalTextAlignment="Center" TextColor="MediumPurple"/>
 
-    </StackLayout>
+            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
+                <Label Text="DeviceID" FontSize="Medium" />
+                <Label Text="{Binding Name}"  FontSize="Large" />
+            </FlexLayout>
 
+            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
+                <Label Text="{Binding City}" FontSize="Large"/>
+                <Label Text="{Binding Country}" FontSize="Large"/>
+            </FlexLayout>
+
+            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center"  >
+                <Label Text="Lat" FontSize="Large"/>
+                <Label Text="{Binding Lat}" FontSize="Large" TextColor="Aquamarine"/>
+                <Label Text="Long" FontSize="Large"/>
+                <Label Text="{Binding Lon}" FontSize="Large" TextColor="Aquamarine"/>
+            </FlexLayout>
+            <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent"/>
+        </FlexLayout>
+    </pv:PancakeView>
 </mvvm:ViewBase>
