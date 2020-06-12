@@ -1,9 +1,12 @@
 ﻿using System.Threading.Tasks;
 using TinyMvvm;
+using TinyMvvm.IoC;
+using XamTrack.Core.Services;
+
 namespace XamTrack.Core.ViewModels
 {
     public class MainViewModel : ViewModelBase
-    {
+    {       
         #region Properties
         private string name;
         public string Name
@@ -49,6 +52,8 @@ namespace XamTrack.Core.ViewModels
         }
         #endregion
 
+        IGeolocationService _geolocationService;
+
         public MainViewModel()
         {
         }
@@ -61,6 +66,8 @@ namespace XamTrack.Core.ViewModels
             Lon = "52.23";
             Country = "United Kingdom";
             City = "Chippenham";
+           // _geolocationService = Resolver.Resolve<IGeolocationService>();
+
         }
 
     }

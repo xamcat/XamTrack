@@ -18,25 +18,25 @@
                 <pv:GradientStop Color="MediumPurple" Offset="1" />
             </pv:GradientStopCollection>
         </pv:PancakeView.BackgroundGradientStops>
-        <FlexLayout Direction="Column" JustifyContent="SpaceEvenly">
+        <FlexLayout Direction="Column" JustifyContent="SpaceEvenly" AlignContent="Center" AlignItems="Center">
 
             
             <Label Text="XamTrack IoT" FontSize="50" HorizontalTextAlignment="Center" TextColor="MediumPurple"/>
 
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
-                <Label Text="DeviceID" FontSize="Medium" />
-                <Label Text="{Binding Name}"  FontSize="Large" />
+                <Label Text="DeviceID" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                <Label Text="{Binding Name}"  FontSize="Large" TextColor="DarkSlateBlue"/>
             </FlexLayout>
 
-            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
-                <Label Text="{Binding City}" FontSize="Large"/>
-                <Label Text="{Binding Country}" FontSize="Large"/>
-            </FlexLayout>
+            
+                <Label Text="{Binding City}" FontSize="Large" TextColor="DarkSlateBlue"/>
+                <Label Text="{Binding Country}" FontSize="Large" TextColor="DarkSlateBlue"/>
+            
 
-            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center"  >
-                <Label Text="Lat" FontSize="Large"/>
+            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center">
+                <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
                 <Label Text="{Binding Lat}" FontSize="Large" TextColor="Aquamarine"/>
-                <Label Text="Long" FontSize="Large"/>
+                <Label Text="Long" FontSize="Large" TextColor="DarkSlateBlue"/>
                 <Label Text="{Binding Lon}" FontSize="Large" TextColor="Aquamarine"/>
             </FlexLayout>
             <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent"/>

@@ -6,7 +6,7 @@ using Xamarin.Essentials;
 
 namespace XamTrack.Core.Services
 {
-    class GeolocationService: IGeolocationService
+    public class GeolocationService: IGeolocationService
     {
         public async Task<Location> GetLastKnownLocationAsync()
         {
