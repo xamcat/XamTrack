@@ -18,6 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\XamTrack.Core\XamTrack.Core.csproj" />
   </ItemGroup>
 </Project>

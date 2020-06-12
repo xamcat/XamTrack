@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
-namespace XamTrack.Services
+namespace XamTrack.Core.Services
 {
     class GeolocationService: IGeolocationService
     {

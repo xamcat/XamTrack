@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamTrack.iOS", "XamTrack.iOS\XamTrack.iOS.csproj", "{267632CC-F472-45E0-89FF-433FB1F88490}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamTrack", "XamTrack\XamTrack.csproj", "{F1B0632C-C7AD-4D2B-BEE0-2D68A040BA33}"
+	ProjectSection(ProjectDependencies) = postProject
+		{73484BE8-C85E-4B8C-9A52-8BD835F8AF70} = {73484BE8-C85E-4B8C-9A52-8BD835F8AF70}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamTrack.Core", "XamTrack.Core\XamTrack.Core.csproj", "{73484BE8-C85E-4B8C-9A52-8BD835F8AF70}"
 EndProject

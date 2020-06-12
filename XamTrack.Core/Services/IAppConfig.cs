@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace XamTrack.Services
+namespace XamTrack.Core.Services
 {
-    interface IIoTDeviceClientService
+    interface IAppConfig
     {
+        
     }
 }

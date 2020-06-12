@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TinyMvvm;
-
-namespace XamTrack.ViewModels
+namespace XamTrack.Core.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {

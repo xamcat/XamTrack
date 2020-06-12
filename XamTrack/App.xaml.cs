@@ -24,20 +24,20 @@ namespace XamTrack
 
             navigationHelper.RegisterViewsInAssembly(currentAssembly);
 
-            var containerBuilder = new ContainerBuilder();
+            //var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.RegisterInstance<INavigationHelper>(navigationHelper);
+            //containerBuilder.RegisterInstance<INavigationHelper>(navigationHelper);
 
-            var appAssembly = typeof(App).GetTypeInfo().Assembly;
-            containerBuilder.RegisterAssemblyTypes(appAssembly)
-                   .Where(x => x.IsSubclassOf(typeof(Page)));
+            //var appAssembly = typeof(App).GetTypeInfo().Assembly;
+            //containerBuilder.RegisterAssemblyTypes(appAssembly)
+            //       .Where(x => x.IsSubclassOf(typeof(Page)));
 
-            containerBuilder.RegisterAssemblyTypes(appAssembly)
-                   .Where(x => x.IsSubclassOf(typeof(ViewModelBase)));
+            //containerBuilder.RegisterAssemblyTypes(appAssembly)
+            //       .Where(x => x.IsSubclassOf(typeof(ViewModelBase)));
 
-            var container = containerBuilder.Build();
+            //var container = containerBuilder.Build();
 
-            Resolver.SetResolver(new AutofacResolver(container));
+            //Resolver.SetResolver(new AutofacResolver(container));
 
             TinyMvvm.Forms.TinyMvvm.Initialize();
 
