@@ -79,7 +79,7 @@ namespace XamTrack.Core.ViewModels
             Country = "United Kingdom";
             City = "Chippenham";
 
-            CurrentLocation = await _geolocationService.GetLastKnownLocationAsync();
+            CurrentLocation = await _geolocationService?.GetLastKnownLocationAsync();
 
             _timer = new Timer(TimerPeriod);
             _timer.Elapsed += _timer_ElapsedAsync;
