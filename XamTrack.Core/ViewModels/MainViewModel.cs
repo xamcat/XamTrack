@@ -5,6 +5,7 @@ using TinyMvvm;
 using TinyMvvm.IoC;
 using Xamarin.Essentials;
 using XamTrack.Core.Services;
+using System.Windows.Input;
 
 namespace XamTrack.Core.ViewModels
 {
@@ -50,15 +51,25 @@ namespace XamTrack.Core.ViewModels
 
         #endregion
 
+        #region Commnands
+        private ICommand _connectCommand;
+        public ICommand ConnectCommand => _connectCommand = new TinyCommand(async () =>
+        {
+            _ioTDeviceClientService.Connect();
+        });
+        #endregion
+
         IGeolocationService _geolocationService;
+        IIoTDeviceClientService _ioTDeviceClientService;
          
         Timer _timer;
 
         readonly int TimerPeriod = 5000;
 
-        public MainViewModel(IGeolocationService GeolocationService)
+        public MainViewModel(IGeolocationService GeolocationService, IIoTDeviceClientService ioTDeviceClientService)
         {
             _geolocationService = GeolocationService;
+            _ioTDeviceClientService = ioTDeviceClientService;
         }
 
         public async override Task Initialize()

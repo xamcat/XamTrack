@@ -12,6 +12,8 @@ namespace XamTrack.Core.Services
 
         ConnectionStatusChangeReason LastKnownConnectionChangeReason { get; }
 
+        Task<bool> Connect();
+
 
         Task<bool> InitialiseAsync(string IotHubEndpoint);
 

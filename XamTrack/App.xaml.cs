@@ -29,6 +29,7 @@ namespace XamTrack
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.RegisterType<GeolocationService>().As<IGeolocationService>();
+            containerBuilder.RegisterType<IoTDeviceClientService>().As<IIoTDeviceClientService>();
                                    
             containerBuilder.RegisterType<MainPage>();
             containerBuilder.RegisterType<MainViewModel>();

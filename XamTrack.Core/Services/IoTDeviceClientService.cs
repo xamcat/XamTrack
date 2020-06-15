@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace XamTrack.Core.Services
 {
-    class IoTDeviceClientService : IIoTDeviceClientService
+    public class IoTDeviceClientService : IIoTDeviceClientService
     {
         DeviceClient _deviceClient;
 
@@ -19,6 +19,11 @@ namespace XamTrack.Core.Services
         public ConnectionStatusChangeReason LastKnownConnectionChangeReason => throw new NotImplementedException();
 
         public event ConnectionStatusChangesHandler ConnectionStatusChange;
+
+        public Task<bool> Connect()
+        {
+            return Task.FromResult(true);
+        }
 
         public Task<bool> InitialiseAsync(string IotHubEndpoint)
         {
