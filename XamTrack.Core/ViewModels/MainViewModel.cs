@@ -18,20 +18,6 @@ namespace XamTrack.Core.ViewModels
             set => Set(ref name, value);
         }
 
-        private string _lat;
-        public string Lat
-        {
-            get => _lat;
-            set => Set(ref _lat, value);
-        }
-
-        private string _lon;
-        public string Lon
-        {
-            get => _lon;
-            set => Set(ref _lon, value);
-        }
-
         private string _country;
         public string Country
         {
@@ -79,8 +65,6 @@ namespace XamTrack.Core.ViewModels
         {
             await base.Initialize();
             Name = "BenBtg";
-            Lat = "-1.46";
-            Lon = "52.23";
             Country = "United Kingdom";
             City = "Chippenham";
 
