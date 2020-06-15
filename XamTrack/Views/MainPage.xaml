@@ -35,10 +35,13 @@
 
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center">
                 <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Lat}" FontSize="Large" TextColor="Aquamarine"/>
+                <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Large" TextColor="Aquamarine"/>
                 <Label Text="Lon" FontSize="Large" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Lon}" FontSize="Large" TextColor="Aquamarine"/>
+                <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Large" TextColor="Aquamarine"/>
             </FlexLayout>
+
+            <Label Text="Last Updated" FontSize="Large" TextColor="DarkSlateBlue"/>
+            <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Large" TextColor="Aquamarine"/>
             <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent"/>
         </FlexLayout>
     </pv:PancakeView>

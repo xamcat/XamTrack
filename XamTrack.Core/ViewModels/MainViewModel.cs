@@ -53,10 +53,19 @@ namespace XamTrack.Core.ViewModels
             get => _connected;
             set => Set(ref _connected, value);
         }
+
+        private Location _currentLocation;
+        public Location CurrentLocation
+        {
+            get => _currentLocation;
+            set => Set(ref _currentLocation, value);
+        }
+
+
         #endregion
 
         IGeolocationService _geolocationService;
-        Location _currentLocation;        
+         
         Timer _timer;
 
         readonly int TimerPeriod = 5000;
@@ -75,6 +84,8 @@ namespace XamTrack.Core.ViewModels
             Country = "United Kingdom";
             City = "Chippenham";
 
+            CurrentLocation = await _geolocationService.GetLastKnownLocationAsync();
+
             _timer = new Timer(TimerPeriod);
             _timer.Elapsed += _timer_ElapsedAsync;
             _timer.AutoReset = true;
@@ -88,10 +99,7 @@ namespace XamTrack.Core.ViewModels
 
         private async Task UpdateCurrentLocationAsync()
         {
-            _currentLocation = await _geolocationService?.GetLastKnownLocationAsync();
-
-            Lat = _currentLocation.Latitude.ToString();
-            Lon = _currentLocation.Longitude.ToString();
+            CurrentLocation = await _geolocationService.GetLocationAsync();
         }
 
 

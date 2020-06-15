@@ -9,5 +9,6 @@ namespace XamTrack.Core.Services
     public interface IGeolocationService
     {
         Task<Location> GetLastKnownLocationAsync();
+        Task<Location> GetLocationAsync();
     }
 }
