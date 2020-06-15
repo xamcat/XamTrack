@@ -36,7 +36,7 @@
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center">
                 <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
                 <Label Text="{Binding Lat}" FontSize="Large" TextColor="Aquamarine"/>
-                <Label Text="Long" FontSize="Large" TextColor="DarkSlateBlue"/>
+                <Label Text="Lon" FontSize="Large" TextColor="DarkSlateBlue"/>
                 <Label Text="{Binding Lon}" FontSize="Large" TextColor="Aquamarine"/>
             </FlexLayout>
             <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent"/>

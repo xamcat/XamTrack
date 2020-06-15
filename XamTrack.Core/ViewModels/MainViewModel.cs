@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Timers;
+using System.Threading.Tasks;
 using TinyMvvm;
 using TinyMvvm.IoC;
+using Xamarin.Essentials;
 using XamTrack.Core.Services;
 
 namespace XamTrack.Core.ViewModels
@@ -53,9 +56,14 @@ namespace XamTrack.Core.ViewModels
         #endregion
 
         IGeolocationService _geolocationService;
+        Location _currentLocation;        
+        Timer _timer;
 
-        public MainViewModel()
+        readonly int TimerPeriod = 5000;
+
+        public MainViewModel(IGeolocationService GeolocationService)
         {
+            _geolocationService = GeolocationService;
         }
 
         public async override Task Initialize()
@@ -66,9 +74,26 @@ namespace XamTrack.Core.ViewModels
             Lon = "52.23";
             Country = "United Kingdom";
             City = "Chippenham";
-           // _geolocationService = Resolver.Resolve<IGeolocationService>();
 
+            _timer = new Timer(TimerPeriod);
+            _timer.Elapsed += _timer_ElapsedAsync;
+            _timer.AutoReset = true;
+            _timer.Start();
         }
+
+        private async void _timer_ElapsedAsync(object sender, ElapsedEventArgs e)
+        {
+            await UpdateCurrentLocationAsync();
+        }
+
+        private async Task UpdateCurrentLocationAsync()
+        {
+            _currentLocation = await _geolocationService?.GetLastKnownLocationAsync();
+
+            Lat = _currentLocation.Latitude.ToString();
+            Lon = _currentLocation.Longitude.ToString();
+        }
+
 
     }
 }

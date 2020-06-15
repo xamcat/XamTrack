@@ -8,6 +8,8 @@ using TinyNavigationHelper;
 using TinyNavigationHelper.Forms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using XamTrack.Core.Services;
+using XamTrack.Core.ViewModels;
 using XamTrack.Views;
 
 namespace XamTrack
@@ -24,20 +26,16 @@ namespace XamTrack
 
             navigationHelper.RegisterViewsInAssembly(currentAssembly);
 
-            //var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new ContainerBuilder();
 
-            //containerBuilder.RegisterInstance<INavigationHelper>(navigationHelper);
+            containerBuilder.RegisterType<GeolocationService>().As<IGeolocationService>();
+                                   
+            containerBuilder.RegisterType<MainPage>();
+            containerBuilder.RegisterType<MainViewModel>();
 
-            //var appAssembly = typeof(App).GetTypeInfo().Assembly;
-            //containerBuilder.RegisterAssemblyTypes(appAssembly)
-            //       .Where(x => x.IsSubclassOf(typeof(Page)));
+            var container = containerBuilder.Build();
 
-            //containerBuilder.RegisterAssemblyTypes(appAssembly)
-            //       .Where(x => x.IsSubclassOf(typeof(ViewModelBase)));
-
-            //var container = containerBuilder.Build();
-
-            //Resolver.SetResolver(new AutofacResolver(container));
+            Resolver.SetResolver(new AutofacResolver(container));
 
             TinyMvvm.Forms.TinyMvvm.Initialize();
 
