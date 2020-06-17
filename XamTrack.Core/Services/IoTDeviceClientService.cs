@@ -24,9 +24,22 @@ namespace XamTrack.Core.Services
 
         public event ConnectionStatusChangesHandler ConnectionStatusChange;
 
+
+        public IoTDeviceClientService()
+        {
+            _deviceClient = DeviceClient.CreateFromConnectionString($"HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0=");
+        }
+
         public Task<bool> Connect()
         {
+            _deviceClient = DeviceClient.CreateFromConnectionString($"HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0=");
             return Task.FromResult(true);
+        }
+
+        public async Task<bool> Disconnect()
+        {
+            await _deviceClient.CloseAsync();
+            return true;
         }
 
         public Task<bool> InitialiseAsync(string IotHubEndpoint)
@@ -34,9 +47,11 @@ namespace XamTrack.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task SendEventAsync(Message message, CancellationToken cancellationToken)
+        public async Task SendEventAsync(string message, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var msg = new Message(Encoding.ASCII.GetBytes(message));
+
+            await _deviceClient.SendEventAsync(msg);
         }
         #endregion
 

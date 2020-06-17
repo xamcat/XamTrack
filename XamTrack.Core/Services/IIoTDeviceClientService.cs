@@ -14,9 +14,11 @@ namespace XamTrack.Core.Services
 
         Task<bool> Connect();
 
+        Task<bool> Disconnect();
+
 
         Task<bool> InitialiseAsync(string IotHubEndpoint);
 
-        Task SendEventAsync(Message message, CancellationToken cancellationToken);
+        Task SendEventAsync(string message, CancellationToken cancellationToken);
     }
 }

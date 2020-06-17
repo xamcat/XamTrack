@@ -6,6 +6,7 @@ using TinyMvvm.IoC;
 using Xamarin.Essentials;
 using XamTrack.Core.Services;
 using System.Windows.Input;
+using Newtonsoft.Json;
 
 namespace XamTrack.Core.ViewModels
 {
@@ -51,12 +52,19 @@ namespace XamTrack.Core.ViewModels
 
         #endregion
 
-        #region Commnands
+        #region Commands
         private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand = new TinyCommand(async () =>
         {
-            _ioTDeviceClientService.Connect();
+            await _ioTDeviceClientService.Connect();
         });
+
+        private ICommand? _disconnect;
+        public ICommand Disconnect => _disconnect ??= new TinyCommand(async () =>
+        {
+            _ioTDeviceClientService.Disconnect();
+        });
+
         #endregion
 
         IGeolocationService _geolocationService;
@@ -66,8 +74,11 @@ namespace XamTrack.Core.ViewModels
 
         readonly int TimerPeriod = 5000;
 
+        System.Threading.CancellationToken _cancellationToken;
+
         public MainViewModel(IGeolocationService GeolocationService, IIoTDeviceClientService ioTDeviceClientService)
         {
+            _cancellationToken = new System.Threading.CancellationToken();
             _geolocationService = GeolocationService;
             _ioTDeviceClientService = ioTDeviceClientService;
         }
@@ -90,6 +101,8 @@ namespace XamTrack.Core.ViewModels
         private async void _timer_ElapsedAsync(object sender, ElapsedEventArgs e)
         {
             await UpdateCurrentLocationAsync();
+            var locationMessage = JsonConvert.SerializeObject(CurrentLocation);
+            await _ioTDeviceClientService.SendEventAsync(locationMessage, _cancellationToken);
         }
 
         private async Task UpdateCurrentLocationAsync()
