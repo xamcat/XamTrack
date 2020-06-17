@@ -1,0 +1,28 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: macos-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build sln
+      run: msbuild /restore ./XamTrack.sln
+      
+  test:
+    name: Run Tests
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Run Test
+      run: dotnet test ./XamTrack.Tests/XamTrack.Tests.csproj
