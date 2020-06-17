@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
     
     - name: nuget restore
-      uses: nuget restore ./XamTrack.sln
+      uses: nuget restore
 
     - name: Build Xamarin.iOS
       run: msbuild ./XamTrack.iOS/XamTrack.iOS.csproj /p:Platform=iPhoneSimulator /p:Configuration=Debug
