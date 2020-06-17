@@ -13,9 +13,15 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    
+    - name: nuget restore
+      uses: nuget restore ./XamTrack.sln
 
-    - name: Build sln
-      run: msbuild /restore ./XamTrack.sln
+    - name: Build Xamarin.iOS
+      run: msbuild ./XamTrack.iOS/XamTrack.iOS.csproj /p:Platform=iPhoneSimulator /p:Configuration=Debug
+    
+    - name: Build Xamarin.Android
+      run: msbuild ./XamTrack.Android/XamTrack.Android.csproj /p:Configuration=Debug
       
   test:
     name: Run Tests
@@ -23,6 +29,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-      
+    
     - name: Run Test
       run: dotnet test ./XamTrack.Tests/XamTrack.Tests.csproj
