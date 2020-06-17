@@ -13,12 +13,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
+      
     - name: Build Xamarin.iOS
-      run: msbuild ./XamTrack.iOS/XamTrack.iOS.csproj /p:Platform=iPhoneSimulator /p:Configuration=Debug
+      run: msbuild /restore ./XamTrack.iOS/XamTrack.iOS.csproj /p:Platform=iPhoneSimulator /p:Configuration=Debug
     
     - name: Build Xamarin.Android
-      run: msbuild ./XamTrack.Android/XamTrack.Android.csproj /p:Configuration=Debug
+      run: msbuild /restore ./XamTrack.Android/XamTrack.Android.csproj /p:Configuration=Debug
       
   test:
     name: Run Tests
