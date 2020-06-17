@@ -127,9 +127,6 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="TinyMvvm.Autofac">
-      <Version>2.2.2</Version>
-    </PackageReference>
     <PackageReference Include="TinyMvvm.Forms">
       <Version>2.2.2</Version>
     </PackageReference>

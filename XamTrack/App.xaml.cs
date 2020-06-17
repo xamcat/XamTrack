@@ -1,9 +1,9 @@
-﻿using Autofac;
-using System;
+﻿using System;
 using System.Reflection;
+using TinyIoC;
 using TinyMvvm;
-using TinyMvvm.Autofac;
 using TinyMvvm.IoC;
+using TinyMvvm.TinyIoC;
 using TinyNavigationHelper;
 using TinyNavigationHelper.Forms;
 using Xamarin.Forms;
@@ -25,18 +25,21 @@ namespace XamTrack
             var navigationHelper = new FormsNavigationHelper();
 
             navigationHelper.RegisterViewsInAssembly(currentAssembly);
+            var container = TinyIoCContainer.Current;
 
-            var containerBuilder = new ContainerBuilder();
+            container.AutoRegister();
+            
+            //Register<INavigationHelper>(navigationHelper)
 
-            containerBuilder.RegisterType<GeolocationService>().As<IGeolocationService>();
-            containerBuilder.RegisterType<IoTDeviceClientService>().As<IIoTDeviceClientService>();
-                                   
-            containerBuilder.RegisterType<MainPage>();
-            containerBuilder.RegisterType<MainViewModel>();
+            //container.RegisterType<GeolocationService>().As<IGeolocationService>();
+            //container.RegisterType<IoTDeviceClientService>().As<IIoTDeviceClientService>();
 
-            var container = containerBuilder.Build();
+          //  TinyIoCContainer.Current.Register<MainPage>();
+//            TinyIoCContainer.Current.Register<MainViewModel>();
 
-            Resolver.SetResolver(new AutofacResolver(container));
+          
+
+            Resolver.SetResolver(new TinyIoCResolver());
 
             TinyMvvm.Forms.TinyMvvm.Initialize();
 
