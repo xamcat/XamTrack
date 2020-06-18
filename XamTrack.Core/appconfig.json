@@ -1,5 +1,6 @@
 {
   "Service": "https://localhost/service",
   "AppSecret": "1b128dec-fd50-4ee3-91c1-bf9c1b4a8d95",
-  "DpsIdScope": "0ne0011CEBA"
+  "DpsIdScope": "0ne0011CEBA",
+  "IotHubConnectionString": "HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0="
 }

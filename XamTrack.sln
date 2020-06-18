@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamTrack", "XamTrack\XamTra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamTrack.Core", "XamTrack.Core\XamTrack.Core.csproj", "{73484BE8-C85E-4B8C-9A52-8BD835F8AF70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamTrack.Tests", "XamTrack.Tests\XamTrack.Tests.csproj", "{8D7B7920-E7DE-42B8-AFBE-2A0F97183085}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamTrack.Tests", "XamTrack.Tests\XamTrack.Tests.csproj", "{8D7B7920-E7DE-42B8-AFBE-2A0F97183085}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,11 +30,7 @@ Global
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|iPhone.Deploy.0 = Debug|Any CPU
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Debug|iPhoneSimulator.Deploy.0 = Debug|Any CPU
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Release|Any CPU.Deploy.0 = Release|Any CPU
@@ -46,7 +42,6 @@ Global
 		{DAE63E4A-DA3F-4E01-AA68-F26D38105C62}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 		{267632CC-F472-45E0-89FF-433FB1F88490}.Debug|Any CPU.ActiveCfg = Debug|iPhone
 		{267632CC-F472-45E0-89FF-433FB1F88490}.Debug|Any CPU.Build.0 = Debug|iPhone
-		{267632CC-F472-45E0-89FF-433FB1F88490}.Debug|Any CPU.Deploy.0 = Debug|iPhone
 		{267632CC-F472-45E0-89FF-433FB1F88490}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{267632CC-F472-45E0-89FF-433FB1F88490}.Debug|iPhone.Build.0 = Debug|iPhone
 		{267632CC-F472-45E0-89FF-433FB1F88490}.Debug|iPhone.Deploy.0 = Debug|iPhone

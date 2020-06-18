@@ -18,21 +18,30 @@ namespace XamTrack.Core.Services
         DeviceClient _deviceClient;
 
         #region IIoTDeviceClientService
-        public ConnectionStatus LastKnownConnectionStatus => throw new NotImplementedException();
+        public ConnectionStatus LastKnownConnectionStatus { get; set; }
 
-        public ConnectionStatusChangeReason LastKnownConnectionChangeReason => throw new NotImplementedException();
+        public ConnectionStatusChangeReason LastKnownConnectionChangeReason { get; set; }
 
         public event ConnectionStatusChangesHandler ConnectionStatusChange;
 
 
         public IoTDeviceClientService()
         {
-            _deviceClient = DeviceClient.CreateFromConnectionString($"HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0=");
+            _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
+        }
+
+        private void ConnectionStatusChangesHandler(ConnectionStatus status, ConnectionStatusChangeReason reason)
+        {            
+            LastKnownConnectionStatus = status;
+            LastKnownConnectionChangeReason = reason;
         }
 
         public Task<bool> Connect()
         {
-            _deviceClient = DeviceClient.CreateFromConnectionString($"HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0=");
+            var iotHubConnectionString = AppConfigService.Settings["IotHubConnectionString"];
+
+            _deviceClient = DeviceClient.CreateFromConnectionString(iotHubConnectionString);
+            
             return Task.FromResult(true);
         }
 
@@ -91,8 +100,5 @@ namespace XamTrack.Core.Services
             var sasToken = String.Format(CultureInfo.InvariantCulture, "SharedAccessSignature sr={0}&sig={1}&se={2}&skn={3}", HttpUtility.UrlEncode(resourceUri), HttpUtility.UrlEncode(signature), expiry, keyName);
             return sasToken;
         }
-
     }
-
-
 }

@@ -56,6 +56,7 @@ namespace XamTrack.Core.ViewModels
         private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand = new TinyCommand(async () =>
         {
+
             await _ioTDeviceClientService.Connect();
         });
 
@@ -78,7 +79,7 @@ namespace XamTrack.Core.ViewModels
 
         public MainViewModel(IGeolocationService GeolocationService, IIoTDeviceClientService ioTDeviceClientService)
         {
-            _cancellationToken = new System.Threading.CancellationToken();
+           _cancellationToken = new System.Threading.CancellationToken();
             _geolocationService = GeolocationService;
             _ioTDeviceClientService = ioTDeviceClientService;
         }

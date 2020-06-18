@@ -20,7 +20,7 @@
         </pv:PancakeView.BackgroundGradientStops>
         <FlexLayout Direction="Column" JustifyContent="SpaceEvenly" AlignContent="Center" AlignItems="Center">
 
-            
+
             <Label Text="XamTrack IoT" FontSize="50" HorizontalTextAlignment="Center" TextColor="MediumPurple"/>
 
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
@@ -28,10 +28,8 @@
                 <Label Text="{Binding Name}"  FontSize="Large" TextColor="DarkSlateBlue"/>
             </FlexLayout>
 
-            
-                <Label Text="{Binding City}" FontSize="Large" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Country}" FontSize="Large" TextColor="DarkSlateBlue"/>
-            
+            <Label Text="{Binding City}" FontSize="Large" TextColor="DarkSlateBlue"/>
+            <Label Text="{Binding Country}" FontSize="Large" TextColor="DarkSlateBlue"/>
 
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center">
                 <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
@@ -42,7 +40,7 @@
 
             <Label Text="Last Updated" FontSize="Large" TextColor="DarkSlateBlue"/>
             <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Large" TextColor="Aquamarine"/>
-            <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent"/>
+            <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>
 </mvvm:ViewBase>
