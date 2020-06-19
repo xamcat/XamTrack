@@ -20,12 +20,10 @@ namespace XamTrack.Tests
         {
             var mocker = new AutoMocker(MockBehavior.Loose);
             
-            // mock.Mock<IGeolocationService>().Setup(x => x.GetLastKnownLocationAsync()).ReturnsAsync(new Location());
             mocker.Use<IGeolocationService>(x => x.GetLastKnownLocationAsync() == Task.FromResult(new Location()));
-            
 
             var sut = mocker.CreateInstance<MainViewModel>();
-            
+
             sut.ConnectCommand.Execute(null);
 
             bool invoked = false;

@@ -9,11 +9,15 @@ namespace XamTrack.Core.Services
     {
         IIoTDeviceClientService _deviceClientService;
         IGeolocationService _geolocationService;
+        
+
         LocationTrackerService(IIoTDeviceClientService ioTDeviceClientService, IGeolocationService geolocationService)
         {
             _deviceClientService = ioTDeviceClientService;
             _geolocationService = geolocationService;
         }
+
+        public bool IsTracking => throw new NotImplementedException();
 
         public Task<bool> StartTrackingAsync()
         {

@@ -3,10 +3,11 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace XamTrack.Core.Services
 {
-    public class AppConfigService
+    public class AppConfigService: IAppConfigService
     {
         private static AppConfigService _instance;
         private JObject _secrets;
@@ -32,17 +33,26 @@ namespace XamTrack.Core.Services
             }
         }
 
-        public static AppConfigService Settings
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new AppConfigService();
-                }
+        //public static AppConfigService Settings
+        //{
+        //    get
+        //    {
+        //        if (_instance == null)
+        //        {
+        //            _instance = new AppConfigService();
+        //        }
 
-                return _instance;
-            }
+        //        return _instance;
+        //    }
+        //}
+
+        public string IotHubConnectionString => GetValue();
+
+        public string DpsIdScope => GetValue();
+
+        private string GetValue([CallerMemberName] string propertyname = null)
+        {
+            return this[propertyname];
         }
 
         public string this[string name]

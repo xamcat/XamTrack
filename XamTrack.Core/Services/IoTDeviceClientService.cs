@@ -17,6 +17,8 @@ namespace XamTrack.Core.Services
     {
         DeviceClient _deviceClient;
 
+        IAppConfigService _appConfigService;
+
         #region IIoTDeviceClientService
         public ConnectionStatus LastKnownConnectionStatus { get; set; }
 
@@ -24,9 +26,9 @@ namespace XamTrack.Core.Services
 
         public event ConnectionStatusChangesHandler ConnectionStatusChange;
 
-
-        public IoTDeviceClientService()
+        public IoTDeviceClientService(IAppConfigService appConfigService)
         {
+            _appConfigService = appConfigService;
             _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
         }
 
@@ -38,7 +40,7 @@ namespace XamTrack.Core.Services
 
         public Task<bool> Connect()
         {
-            var iotHubConnectionString = AppConfigService.Settings["IotHubConnectionString"];
+            var iotHubConnectionString = _appConfigService.IotHubConnectionString;
 
             _deviceClient = DeviceClient.CreateFromConnectionString(iotHubConnectionString);
             
@@ -66,8 +68,8 @@ namespace XamTrack.Core.Services
 
         private async Task<bool> Provision()
         {
-            var iotDpsGlobalEndpoint = AppConfigService.Settings["DpsGlobalEndpoint"];            
-            var iotDpsIdScope = AppConfigService.Settings["DpsIdScope"]; ;
+            //var iotDpsGlobalEndpoint = ;
+            var iotDpsIdScope = _appConfigService.DpsIdScope;
             /* var provisioningSharedKey = _appConfigProvider.AppConfig.DpsSymKeySecret;
              var dpsSymmKey = _symmetricKeyProvider.GenerateSymmetricKey(IotDeviceId, provisioningSharedKey);
 

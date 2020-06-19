@@ -7,6 +7,7 @@ namespace XamTrack.Core.Services
 {
     public interface ILocationTrackerService
     {
+        bool IsTracking { get; }
         Task<bool> StartTrackingAsync();
         Task<bool> StopTrackingAsync();
     }

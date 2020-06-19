@@ -63,7 +63,7 @@ namespace XamTrack.Core.ViewModels
         private ICommand? _disconnect;
         public ICommand Disconnect => _disconnect ??= new TinyCommand(async () =>
         {
-            _ioTDeviceClientService.Disconnect();
+            await _ioTDeviceClientService.Disconnect();
         });
 
         #endregion
