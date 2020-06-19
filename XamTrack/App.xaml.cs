@@ -34,8 +34,8 @@ namespace XamTrack
             //container.RegisterType<GeolocationService>().As<IGeolocationService>();
             //container.RegisterType<IoTDeviceClientService>().As<IIoTDeviceClientService>();
 
-          //  TinyIoCContainer.Current.Register<MainPage>();
-            TinyIoCContainer.Current.Register<MainViewModel>();
+            //TinyIoCContainer.Current.Register<MainPage>();
+            //TinyIoCContainer.Current.Register<MainViewModel>();
           
             Resolver.SetResolver(new TinyIoCResolver());
 
