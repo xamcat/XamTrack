@@ -4,7 +4,15 @@ using System.Text;
 
 namespace XamTrack.Core.Services
 {
-    public class DeviceInfoService
+    public class DeviceInfoService : IDeviceInfoService
     {
+        public DeviceInfoService()
+        {
+        }
+
+        public string GetDeviceId()
+        {
+            return "DeviceInfo";
+        }
     }
 }

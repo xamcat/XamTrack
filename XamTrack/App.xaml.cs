@@ -27,16 +27,17 @@ namespace XamTrack
             navigationHelper.RegisterViewsInAssembly(currentAssembly);
             var container = TinyIoCContainer.Current;
 
-            container.AutoRegister();
-            
-            //Register<INavigationHelper>(navigationHelper)
+            container.Register<INavigationHelper>(navigationHelper);
 
-            //container.RegisterType<GeolocationService>().As<IGeolocationService>();
-            //container.RegisterType<IoTDeviceClientService>().As<IIoTDeviceClientService>();
+            container.Register<IAppConfigService, AppConfigService>();
+            container.Register<IDeviceInfoService, DeviceInfoService>();
+            container.Register<IGeolocationService, GeolocationService>();
+            container.Register<IIoTDeviceClientService, IoTDeviceClientService>();                        
+            container.Register<ILocationTrackerService, LocationTrackerService>();            
 
-            //TinyIoCContainer.Current.Register<MainPage>();
-            //TinyIoCContainer.Current.Register<MainViewModel>();
-          
+            container.Register<MainPage>();
+            container.Register<MainViewModel>();
+                        
             Resolver.SetResolver(new TinyIoCResolver());
 
             TinyMvvm.Forms.TinyMvvm.Initialize();
