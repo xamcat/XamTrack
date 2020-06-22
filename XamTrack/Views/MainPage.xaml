@@ -11,36 +11,48 @@
     x:Class="XamTrack.Views.MainPage"
     x:TypeArguments="vm:MainViewModel">
 
-    <pv:PancakeView HorizontalOptions="FillAndExpand" HeightRequest="150" WidthRequest="300" BorderThickness="4" >
+    <pv:PancakeView>
         <pv:PancakeView.BackgroundGradientStops>
             <pv:GradientStopCollection>
                 <pv:GradientStop Color="white" Offset="0" />
                 <pv:GradientStop Color="MediumPurple" Offset="1" />
             </pv:GradientStopCollection>
         </pv:PancakeView.BackgroundGradientStops>
-        <FlexLayout Direction="Column" JustifyContent="SpaceEvenly" AlignContent="Center" AlignItems="Center">
-
-
-            <Label Text="XamTrack IoT" FontSize="50" HorizontalTextAlignment="Center" TextColor="MediumPurple"/>
+        <FlexLayout Direction="Column" JustifyContent="SpaceEvenly" AlignItems="Stretch">
+            
+            <Label Text="{Binding ConnectionStatus}" HorizontalTextAlignment="Center" FontSize="Medium" VerticalTextAlignment="Center" BackgroundColor="LightGreen" TextColor="White" HeightRequest="30"/>
+            
+            <Label Text="XamTrack IoT" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="MediumPurple"/>
 
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
                 <Label Text="DeviceID" FontSize="Medium" TextColor="DarkSlateBlue"/>
                 <Label Text="{Binding Name}"  FontSize="Large" TextColor="DarkSlateBlue"/>
             </FlexLayout>
+            <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10"/>
 
-            <Label Text="{Binding City}" FontSize="Large" TextColor="DarkSlateBlue"/>
-            <Label Text="{Binding Country}" FontSize="Large" TextColor="DarkSlateBlue"/>
+             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
 
-            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceEvenly" AlignItems="Center">
-                <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Large" TextColor="Aquamarine"/>
-                <Label Text="Lon" FontSize="Large" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Large" TextColor="Aquamarine"/>
-            </FlexLayout>
+            <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="150">
+                
+                <Label Text="{Binding City}" FontSize="Large" TextColor="DarkSlateBlue"/>
+                <Label Text="{Binding Country}" FontSize="Large" TextColor="DarkSlateBlue"/>
+        <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
+        <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
+        <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Large" TextColor="LightGreen"/>
+        <Label Text="Lon" FontSize="Large" TextColor="DarkSlateBlue"/>
+        <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Large" TextColor="LightGreen"/>
+    </FlexLayout>
+                </FlexLayout>
+             </pv:PancakeView>
 
+
+            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
+                <StackLayout Margin="20">
             <Label Text="Last Updated" FontSize="Large" TextColor="DarkSlateBlue"/>
-            <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Large" TextColor="Aquamarine"/>
-            <Label Text="{Binding ConnectionStatus}" FontSize="Large" TextColor="Aquamarine"/>
+            <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Large" TextColor="LightGreen"/>
+               </StackLayout>
+            </pv:PancakeView>
+            
             <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>

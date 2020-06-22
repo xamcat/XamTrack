@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 
 namespace XamTrack.Views
 {
@@ -16,6 +18,15 @@ namespace XamTrack.Views
         public MainPage()
         {
             InitializeComponent();
+            On<iOS>().SetUseSafeArea(true);
+        }
+
+        protected override void OnAppearing()
+        {
+            var safeInsets = On<iOS>().SafeAreaInsets();
+            safeInsets.Bottom = 0;
+            Padding = safeInsets;
+            base.OnAppearing();
         }
     }
 }
