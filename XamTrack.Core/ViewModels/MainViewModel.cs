@@ -77,10 +77,10 @@ namespace XamTrack.Core.ViewModels
 
         System.Threading.CancellationToken _cancellationToken;
 
-        public MainViewModel(IGeolocationService GeolocationService, IIoTDeviceClientService ioTDeviceClientService)
+        public MainViewModel(IGeolocationService geolocationService, IIoTDeviceClientService ioTDeviceClientService)
         {
            _cancellationToken = new System.Threading.CancellationToken();
-            _geolocationService = GeolocationService;
+            _geolocationService = geolocationService;
             _ioTDeviceClientService = ioTDeviceClientService;
         }
 

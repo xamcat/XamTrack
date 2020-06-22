@@ -131,15 +131,18 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="TinyMvvm.Forms">
-      <Version>2.2.2</Version>
+      <Version>2.3.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="4.6.0.847" />
+    <PackageReference Include="Xamarin.Forms" Version="4.7.0.968" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
+    <PackageReference Include="TinyMvvm.TinyIoC">
+      <Version>2.3.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\XamTrack\XamTrack.csproj">
-      <Project>{D6C62C74-E2C3-44F7-B309-4CA673528213}</Project>
+      <Project>{F1B0632C-C7AD-4D2B-BEE0-2D68A040BA33}</Project>
       <Name>XamTrack</Name>
     </ProjectReference>
   </ItemGroup>

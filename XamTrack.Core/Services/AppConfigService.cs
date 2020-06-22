@@ -9,13 +9,13 @@ namespace XamTrack.Core.Services
 {
     public class AppConfigService: IAppConfigService
     {
-        private static AppConfigService _instance;
+        //private static AppConfigService _instance;
         private JObject _secrets;
 
-        private const string Namespace = "XamTrack";
+        private const string Namespace = "XamTrack.Core";
         private const string FileName = "appconfig.json";
 
-        private AppConfigService()
+        public AppConfigService()
         {
             try
             {

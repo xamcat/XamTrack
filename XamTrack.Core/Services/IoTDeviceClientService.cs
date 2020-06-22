@@ -29,7 +29,6 @@ namespace XamTrack.Core.Services
         public IoTDeviceClientService(IAppConfigService appConfigService)
         {
             _appConfigService = appConfigService;
-            _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
         }
 
         private void ConnectionStatusChangesHandler(ConnectionStatus status, ConnectionStatusChangeReason reason)
@@ -38,13 +37,17 @@ namespace XamTrack.Core.Services
             LastKnownConnectionChangeReason = reason;
         }
 
-        public Task<bool> Connect()
+        public async Task<bool> Connect()
         {
             var iotHubConnectionString = _appConfigService.IotHubConnectionString;
 
             _deviceClient = DeviceClient.CreateFromConnectionString(iotHubConnectionString);
-            
-            return Task.FromResult(true);
+
+            _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
+
+            await _deviceClient.OpenAsync();
+
+            return true;
         }
 
         public async Task<bool> Disconnect()
@@ -60,9 +63,12 @@ namespace XamTrack.Core.Services
 
         public async Task SendEventAsync(string message, CancellationToken cancellationToken)
         {
-            var msg = new Message(Encoding.ASCII.GetBytes(message));
+            if (LastKnownConnectionStatus == ConnectionStatus.Connected)
+            {
+                var msg = new Message(Encoding.ASCII.GetBytes(message));
 
-            await _deviceClient.SendEventAsync(msg);
+                await _deviceClient.SendEventAsync(msg);
+            }
         }
         #endregion
 
