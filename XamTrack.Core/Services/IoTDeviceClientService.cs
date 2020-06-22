@@ -24,26 +24,30 @@ namespace XamTrack.Core.Services
 
         public ConnectionStatusChangeReason LastKnownConnectionChangeReason { get; set; }
 
-        public event ConnectionStatusChangesHandler ConnectionStatusChange;
+        public string ConnectionStatus => LastKnownConnectionStatus.ToString();
+        
+        public event EventHandler<string> ConnectionStatusChanged;
 
         public IoTDeviceClientService(IAppConfigService appConfigService)
         {
             _appConfigService = appConfigService;
+            var iotHubConnectionString = _appConfigService.IotHubConnectionString;
+            _deviceClient = DeviceClient.CreateFromConnectionString(iotHubConnectionString);
+            _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
+            LastKnownConnectionStatus = Microsoft.Azure.Devices.Client.ConnectionStatus.Disconnected;
         }
 
         private void ConnectionStatusChangesHandler(ConnectionStatus status, ConnectionStatusChangeReason reason)
         {            
             LastKnownConnectionStatus = status;
             LastKnownConnectionChangeReason = reason;
+            ConnectionStatusChanged?.Invoke(this, status.ToString());
         }
 
         public async Task<bool> Connect()
         {
-            var iotHubConnectionString = _appConfigService.IotHubConnectionString;
+            
 
-            _deviceClient = DeviceClient.CreateFromConnectionString(iotHubConnectionString);
-
-            _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
 
             await _deviceClient.OpenAsync();
 
@@ -63,7 +67,7 @@ namespace XamTrack.Core.Services
 
         public async Task SendEventAsync(string message, CancellationToken cancellationToken)
         {
-            if (LastKnownConnectionStatus == ConnectionStatus.Connected)
+            if (LastKnownConnectionStatus == Microsoft.Azure.Devices.Client.ConnectionStatus.Connected)
             {
                 var msg = new Message(Encoding.ASCII.GetBytes(message));
 

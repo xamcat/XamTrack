@@ -40,6 +40,7 @@
 
             <Label Text="Last Updated" FontSize="Large" TextColor="DarkSlateBlue"/>
             <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Large" TextColor="Aquamarine"/>
+            <Label Text="{Binding ConnectionStatus}" FontSize="Large" TextColor="Aquamarine"/>
             <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>

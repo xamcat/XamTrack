@@ -1,21 +1,17 @@
-﻿using Microsoft.Azure.Devices.Client;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace XamTrack.Core.Services
 {
     public interface IIoTDeviceClientService
-    {
-        event ConnectionStatusChangesHandler ConnectionStatusChange;
-
-        ConnectionStatus LastKnownConnectionStatus { get; }
-
-        ConnectionStatusChangeReason LastKnownConnectionChangeReason { get; }
+    {        
+        event EventHandler<string> ConnectionStatusChanged;
+        string ConnectionStatus { get; }
 
         Task<bool> Connect();
 
         Task<bool> Disconnect();
-
 
         Task<bool> InitialiseAsync(string IotHubEndpoint);
 

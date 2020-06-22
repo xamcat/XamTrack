@@ -11,8 +11,15 @@ using Newtonsoft.Json;
 namespace XamTrack.Core.ViewModels
 {
     public class MainViewModel : ViewModelBase
-    {       
+    {
         #region Properties
+        private string _connectionStatus;
+        public string ConnectionStatus
+        {
+            get => _connectionStatus;
+            set => Set(ref _connectionStatus, value);
+        }
+
         private string name;
         public string Name
         {
@@ -68,6 +75,7 @@ namespace XamTrack.Core.ViewModels
 
         #endregion
 
+
         IGeolocationService _geolocationService;
         IIoTDeviceClientService _ioTDeviceClientService;
          
@@ -82,6 +90,14 @@ namespace XamTrack.Core.ViewModels
            _cancellationToken = new System.Threading.CancellationToken();
             _geolocationService = geolocationService;
             _ioTDeviceClientService = ioTDeviceClientService;
+            _ioTDeviceClientService.ConnectionStatusChanged += _ioTDeviceClientService_ConnectionStatusChanged;
+
+            ConnectionStatus = "Disconnected";
+        }
+
+        private void _ioTDeviceClientService_ConnectionStatusChanged(object sender, string e)
+        {
+            ConnectionStatus = e;
         }
 
         public async override Task Initialize()

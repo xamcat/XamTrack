@@ -13,7 +13,7 @@ using XamTrack.Core.ViewModels;
 using XamTrack.Views;
 
 namespace XamTrack
-{
+{   
     public partial class App : Application
     {
         public App()
