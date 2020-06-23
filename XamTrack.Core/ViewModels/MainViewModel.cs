@@ -12,7 +12,24 @@ namespace XamTrack.Core.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+
         #region Properties
+        private string _timerProgress;
+        public string TimerProgress
+        {
+            get => _timerProgress;
+            set => Set(ref _timerProgress, value);
+        }
+
+
+
+        private string _messageText;
+        public string MessageText
+        {
+            get => _messageText;
+            set => Set(ref _messageText, value);
+        }
+
         private string _connectionStatus;
         public string ConnectionStatus
         {

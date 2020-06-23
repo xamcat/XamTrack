@@ -14,5 +14,10 @@ namespace XamTrack.Core.Services
         {
             return "DeviceInfo";
         }
+
+        public string GetDeviceModel()
+        {
+            return Xamarin.Essentials.DeviceInfo.Model;
+        }
     }
 }

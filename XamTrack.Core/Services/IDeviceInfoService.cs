@@ -7,5 +7,6 @@ namespace XamTrack.Core.Services
     public interface IDeviceInfoService
     {
         string GetDeviceId();
+        string GetDeviceModel();
     }
 }

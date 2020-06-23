@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:XamTrack.Core.ViewModels;assembly=XamTrack.Core"
     xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms" 
+    xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
     mc:Ignorable="d"
     x:Class="XamTrack.Views.MainPage"
@@ -30,17 +31,19 @@
             </FlexLayout>
             <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10"/>
 
-             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
+            <ProgressBar Progress="{Binding TimerProgress}"/>
+
+            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
 
             <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="150">
                 
-                <Label Text="{Binding City}" FontSize="Large" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Country}" FontSize="Large" TextColor="DarkSlateBlue"/>
+                <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                <Label Text="{Binding Country}" FontSize="Medium" TextColor="DarkSlateBlue"/>
         <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
-        <Label Text="Lat" FontSize="Large" TextColor="DarkSlateBlue"/>
-        <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Large" TextColor="LightGreen"/>
-        <Label Text="Lon" FontSize="Large" TextColor="DarkSlateBlue"/>
-        <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Large" TextColor="LightGreen"/>
+        <Label Text="Lat" FontSize="Medium" TextColor="DarkSlateBlue"/>
+        <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightGreen"/>
+        <Label Text="Lon" FontSize="Medium" TextColor="DarkSlateBlue"/>
+        <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightGreen"/>
     </FlexLayout>
                 </FlexLayout>
              </pv:PancakeView>
@@ -48,11 +51,11 @@
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
                 <StackLayout Margin="20">
-            <Label Text="Last Updated" FontSize="Large" TextColor="DarkSlateBlue"/>
-            <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Large" TextColor="LightGreen"/>
+            <Label Text="Last Updated" FontSize="Medium" TextColor="DarkSlateBlue"/>
+            <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Medium" TextColor="LightGreen"/>
                </StackLayout>
             </pv:PancakeView>
-            
+            <maps:Map HeightRequest="200" IsShowingUser="true"/>
             <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>
