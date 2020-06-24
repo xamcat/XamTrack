@@ -1,5 +1,6 @@
 {
-  "AppSecret": "1b128dec-fd50-4ee3-91c1-bf9c1b4a8d95",
   "DpsIdScope": "0ne0011CEBA",
-  "IotHubConnectionString": "HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0="
+  "IotHubConnectionString": "HostName=xt-iothub.azure-devices.net;DeviceId=BenDevice123;SharedAccessKey=4ilFd8aBNjU9OmpjPVtdYrlKtTLDv3NBogpNep41+P0=",
+  "DpsSymetricKey": "DsYLz6mhLZRrcHBsCySUHBAM+3JYTJ+Ez5/5gMHMgzIrm2y6aF3nUV8n37KPgynmAlAhuKW+yHVGbgTD3m48oQ==",
+  "SharedKey": "y8khaIv7YAS1kODMD+BSWHa9HBGOOh6UDcfOpUwiONFyicFAAQzA2e8egj+sVFckMthsu/FGHkaCfT5jwiiBOg=="
 }

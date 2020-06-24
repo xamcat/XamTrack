@@ -8,9 +8,10 @@
     xmlns:mvvm="clr-namespace:TinyMvvm.Forms;assembly=TinyMvvm.Forms" 
     xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
     xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+    xmlns:xamtrack="clr-namespace:XamTrack"
     mc:Ignorable="d"
     x:Class="XamTrack.Views.MainPage"
-    x:TypeArguments="vm:MainViewModel">
+    x:TypeArguments="vm:MainViewModel" >
 
     <pv:PancakeView>
         <pv:PancakeView.BackgroundGradientStops>
@@ -31,14 +32,19 @@
             </FlexLayout>
             <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10"/>
 
-            <ProgressBar Progress="{Binding TimerProgress}"/>
+            <ProgressBar Progress="{Binding TimerProgress}">
+                <ProgressBar.Behaviors>
+                    <xamtrack:AnimatedProgressBehaviour/>
+                </ProgressBar.Behaviors>
+            </ProgressBar>
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
 
             <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="150">
-                
-                <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Country}" FontSize="Medium" TextColor="DarkSlateBlue"/>
+
+                    <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
+
+                    <Label Text="{Binding Country}" FontSize="Medium" TextColor="DarkSlateBlue"/>
         <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
         <Label Text="Lat" FontSize="Medium" TextColor="DarkSlateBlue"/>
         <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightGreen"/>
@@ -56,7 +62,7 @@
                </StackLayout>
             </pv:PancakeView>
             <maps:Map HeightRequest="200" IsShowingUser="true"/>
-            <Button FlexLayout.Grow="1"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
+            <Button HeightRequest="60"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>
 </mvvm:ViewBase>

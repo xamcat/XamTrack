@@ -9,7 +9,6 @@ namespace XamTrack.Core.Services
 {
     public class AppConfigService: IAppConfigService
     {
-        //private static AppConfigService _instance;
         private JObject _secrets;
 
         private const string Namespace = "XamTrack.Core";
@@ -46,9 +45,16 @@ namespace XamTrack.Core.Services
         //    }
         //}
 
+        public string DpsGlobalEndpoint => "global.azure-devices-provisioning.net";
+
         public string IotHubConnectionString => GetValue();
 
         public string DpsIdScope => GetValue();
+
+        public string DpsSymetricKey => GetValue();
+
+        public string AssignedEndPoint { get; set; }
+        
 
         private string GetValue([CallerMemberName] string propertyname = null)
         {

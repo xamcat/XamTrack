@@ -14,14 +14,12 @@ namespace XamTrack.Core.ViewModels
     {
 
         #region Properties
-        private string _timerProgress;
-        public string TimerProgress
+        private double _timerProgress;
+        public double TimerProgress
         {
             get => _timerProgress;
             set => Set(ref _timerProgress, value);
         }
-
-
 
         private string _messageText;
         public string MessageText
@@ -80,7 +78,6 @@ namespace XamTrack.Core.ViewModels
         private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand = new TinyCommand(async () =>
         {
-
             await _ioTDeviceClientService.Connect();
         });
 
@@ -96,9 +93,12 @@ namespace XamTrack.Core.ViewModels
         IGeolocationService _geolocationService;
         IIoTDeviceClientService _ioTDeviceClientService;
          
-        Timer _timer;
+        Timer _messageTimer;
+        //Timer _progressTimer;
 
-        readonly int TimerPeriod = 5000;
+        readonly int MessageTimerPeriod = 5000;
+        //readonly int ProgressTimerPeriod = 10;
+        //int _progressTimerCount = 0;
 
         System.Threading.CancellationToken _cancellationToken;
 
@@ -126,24 +126,42 @@ namespace XamTrack.Core.ViewModels
 
             CurrentLocation = await _geolocationService?.GetLastKnownLocationAsync();
 
-            _timer = new Timer(TimerPeriod);
-            _timer.Elapsed += _timer_ElapsedAsync;
-            _timer.AutoReset = true;
-            _timer.Start();
+            TimerProgress = 1.0;
+
+            _messageTimer = new Timer(MessageTimerPeriod);
+            _messageTimer.Elapsed += _timer_ElapsedAsync;
+            _messageTimer.AutoReset = true;
+            _messageTimer.Start();
+
+            //_progressTimer = new Timer(ProgressTimerPeriod);
+            //_progressTimer.Elapsed += _progressTimer_Elapsed;
+            //_progressTimer.Start();
         }
+
+        //private void _progressTimer_Elapsed(object sender, ElapsedEventArgs e)
+        //{
+        //    _progressTimerCount++;
+        //    var ProgressTimerRatio = (double)ProgressTimerPeriod / (double)MessageTimerPeriod;
+        //    //System.Diagnostics.Debug.WriteLine("ProgressTimerElapsed");
+        //    TimerProgress = ProgressTimerRatio * _progressTimerCount;
+        //}
 
         private async void _timer_ElapsedAsync(object sender, ElapsedEventArgs e)
         {
+            //TimerProgress = 0.0;
+            //_progressTimerCount = 0;
+            //_progressTimer.Start(); 
+            //System.Diagnostics.Debug.WriteLine("MessageTimerElapsed");
+            
             await UpdateCurrentLocationAsync();
             var locationMessage = JsonConvert.SerializeObject(CurrentLocation);
             await _ioTDeviceClientService.SendEventAsync(locationMessage, _cancellationToken);
+            TimerProgress = 1.0;
         }
 
         private async Task UpdateCurrentLocationAsync()
         {
             CurrentLocation = await _geolocationService.GetLocationAsync();
         }
-
-
     }
 }

@@ -12,7 +12,7 @@ namespace XamTrack.Core.Services
 
         public string GetDeviceId()
         {
-            return "DeviceInfo";
+            return "BenBtgTestDeviceID";
         }
 
         public string GetDeviceModel()
