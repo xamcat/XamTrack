@@ -8,5 +8,6 @@ namespace XamTrack.Core.Services
     {
         string GetDeviceId();
         string GetDeviceModel();
+        string GetDeviceName();
     }
 }

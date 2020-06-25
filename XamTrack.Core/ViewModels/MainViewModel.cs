@@ -7,6 +7,7 @@ using Xamarin.Essentials;
 using XamTrack.Core.Services;
 using System.Windows.Input;
 using Newtonsoft.Json;
+using XamTrack.Core.Models;
 
 namespace XamTrack.Core.ViewModels
 {
@@ -90,8 +91,9 @@ namespace XamTrack.Core.ViewModels
         #endregion
 
 
-        IGeolocationService _geolocationService;
-        IIoTDeviceClientService _ioTDeviceClientService;
+        private IGeolocationService _geolocationService;
+        private IDeviceInfoService _deviceInfoService;
+        private IIoTDeviceClientService _ioTDeviceClientService;
          
         Timer _messageTimer;
         //Timer _progressTimer;
@@ -102,10 +104,11 @@ namespace XamTrack.Core.ViewModels
 
         System.Threading.CancellationToken _cancellationToken;
 
-        public MainViewModel(IGeolocationService geolocationService, IIoTDeviceClientService ioTDeviceClientService)
+        public MainViewModel(IGeolocationService geolocationService, IIoTDeviceClientService ioTDeviceClientService, IDeviceInfoService deviceInfoService)
         {
            _cancellationToken = new System.Threading.CancellationToken();
             _geolocationService = geolocationService;
+            _deviceInfoService = deviceInfoService;
             _ioTDeviceClientService = ioTDeviceClientService;
             _ioTDeviceClientService.ConnectionStatusChanged += _ioTDeviceClientService_ConnectionStatusChanged;
 
@@ -154,8 +157,12 @@ namespace XamTrack.Core.ViewModels
             //System.Diagnostics.Debug.WriteLine("MessageTimerElapsed");
             
             await UpdateCurrentLocationAsync();
-            var locationMessage = JsonConvert.SerializeObject(CurrentLocation);
-            await _ioTDeviceClientService.SendEventAsync(locationMessage, _cancellationToken);
+
+            var message = new IoTMessage(CurrentLocation, MessageText, _deviceInfoService.GetDeviceId(), _deviceInfoService.GetDeviceModel(), _deviceInfoService.GetDeviceName());
+            var messagejson = JsonConvert.SerializeObject(message);
+
+
+            await _ioTDeviceClientService.SendEventAsync(messagejson, _cancellationToken);
             TimerProgress = 1.0;
         }
 

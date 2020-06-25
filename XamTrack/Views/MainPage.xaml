@@ -26,11 +26,16 @@
             
             <Label Text="XamTrack IoT" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="MediumPurple"/>
 
+            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
+                <StackLayout>
             <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
-                <Label Text="DeviceID" FontSize="Medium" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Name}"  FontSize="Large" TextColor="DarkSlateBlue"/>
+                    <Label Text="DeviceID" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                <Label Text="{Binding Name}"  FontSize="Medium" TextColor="DarkSlateBlue"/>
             </FlexLayout>
-            <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10"/>
+                
+                <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10"/>
+                </StackLayout>
+            </pv:PancakeView>
 
             <ProgressBar Progress="{Binding TimerProgress}">
                 <ProgressBar.Behaviors>
@@ -40,11 +45,10 @@
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
 
-            <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="150">
+            <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="100">
 
                     <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
-
-                    <Label Text="{Binding Country}" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                    
         <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
         <Label Text="Lat" FontSize="Medium" TextColor="DarkSlateBlue"/>
         <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightGreen"/>
