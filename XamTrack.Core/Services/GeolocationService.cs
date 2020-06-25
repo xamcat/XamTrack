@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
@@ -8,6 +9,30 @@ namespace XamTrack.Core.Services
 {
     public class GeolocationService: IGeolocationService
     {
+        public async Task<string> GetCityName(Location location)
+        {
+            var placemarks = await Geocoding.GetPlacemarksAsync(location);
+
+            var placemark = placemarks?.FirstOrDefault();
+            if (placemark != null)
+            {
+                var geocodeAddress =
+                    $"AdminArea:       {placemark.AdminArea}\n" +
+                    $"CountryCode:     {placemark.CountryCode}\n" +
+                    $"CountryName:     {placemark.CountryName}\n" +
+                    $"FeatureName:     {placemark.FeatureName}\n" +
+                    $"Locality:        {placemark.Locality}\n" +
+                    $"PostalCode:      {placemark.PostalCode}\n" +
+                    $"SubAdminArea:    {placemark.SubAdminArea}\n" +
+                    $"SubLocality:     {placemark.SubLocality}\n" +
+                    $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
+                    $"Thoroughfare:    {placemark.Thoroughfare}\n";
+                Console.WriteLine(geocodeAddress);
+                return placemark.Locality;
+            }
+            return "";
+        }
+
         public async Task<Location> GetLastKnownLocationAsync()
         {
             try

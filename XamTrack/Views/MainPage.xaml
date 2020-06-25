@@ -11,6 +11,7 @@
     xmlns:xamtrack="clr-namespace:XamTrack"
     mc:Ignorable="d"
     x:Class="XamTrack.Views.MainPage"
+    
     x:TypeArguments="vm:MainViewModel" >
 
     <pv:PancakeView>
@@ -21,51 +22,53 @@
             </pv:GradientStopCollection>
         </pv:PancakeView.BackgroundGradientStops>
         <FlexLayout Direction="Column" JustifyContent="SpaceEvenly" AlignItems="Stretch">
-            
+
             <Label Text="{Binding ConnectionStatus}" HorizontalTextAlignment="Center" FontSize="Medium" VerticalTextAlignment="Center" BackgroundColor="LightGreen" TextColor="White" HeightRequest="30"/>
-            
-            <Label Text="XamTrack IoT" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="MediumPurple"/>
+
+            <Label Text="XamTrack IoT" FontSize="25" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" VerticalOptions="Center" TextColor="MediumPurple"/>
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
-                <StackLayout>
-            <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
-                    <Label Text="DeviceID" FontSize="Medium" TextColor="DarkSlateBlue"/>
-                <Label Text="{Binding Name}"  FontSize="Medium" TextColor="DarkSlateBlue"/>
-            </FlexLayout>
-                
-                <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10"/>
+                <StackLayout Margin="10">
+                    <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
+                        <Label Text="DeviceId" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Text="{Binding DeviceId}"  FontSize="Medium" TextColor="DarkSlateBlue"/>
+                    </FlexLayout>
+
+                    <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10" Visual="Material"/>
                 </StackLayout>
             </pv:PancakeView>
 
-            <ProgressBar Progress="{Binding TimerProgress}">
+            
+            <maps:Map HeightRequest="250" IsShowingUser="true"/>
+
+
+            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" Margin="10" CornerRadius="10">
+                 <StackLayout Margin="20">
+                <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="100">
+
+                    <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
+
+                    <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
+                        <Label Text="Lat" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightSlateGray"/>
+                        <Label Text="Lon" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightSlateGray"/>
+                    </FlexLayout>
+                </FlexLayout>
+  
+               
+                    <Label Text="Last Updated" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                    <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Medium" TextColor="LightGreen"/>
+                </StackLayout>
+            </pv:PancakeView>
+
+            
+            <ProgressBar Progress="{Binding TimerProgress}" ProgressColor="DarkSlateBlue">
                 <ProgressBar.Behaviors>
                     <xamtrack:AnimatedProgressBehaviour/>
                 </ProgressBar.Behaviors>
             </ProgressBar>
-
-            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
-
-            <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="100">
-
-                    <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
-                    
-        <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
-        <Label Text="Lat" FontSize="Medium" TextColor="DarkSlateBlue"/>
-        <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightGreen"/>
-        <Label Text="Lon" FontSize="Medium" TextColor="DarkSlateBlue"/>
-        <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightGreen"/>
-    </FlexLayout>
-                </FlexLayout>
-             </pv:PancakeView>
-
-
-            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
-                <StackLayout Margin="20">
-            <Label Text="Last Updated" FontSize="Medium" TextColor="DarkSlateBlue"/>
-            <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Medium" TextColor="LightGreen"/>
-               </StackLayout>
-            </pv:PancakeView>
-            <maps:Map HeightRequest="200" IsShowingUser="true"/>
+            
             <Button HeightRequest="60"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>

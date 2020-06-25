@@ -10,5 +10,6 @@ namespace XamTrack.Core.Services
     {
         Task<Location> GetLastKnownLocationAsync();
         Task<Location> GetLocationAsync();
+        Task<string> GetCityName(Location location);
     }
 }

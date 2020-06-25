@@ -8,12 +8,12 @@ using XamTrack.Core.Services;
 using System.Windows.Input;
 using Newtonsoft.Json;
 using XamTrack.Core.Models;
+using System.Diagnostics;
 
 namespace XamTrack.Core.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-
         #region Properties
         private double _timerProgress;
         public double TimerProgress
@@ -36,11 +36,11 @@ namespace XamTrack.Core.ViewModels
             set => Set(ref _connectionStatus, value);
         }
 
-        private string name;
-        public string Name
+        private string _deviceId;
+        public string DeviceId
         {
-            get => name;
-            set => Set(ref name, value);
+            get => _deviceId;
+            set => Set(ref _deviceId, value);
         }
 
         private string _country;
@@ -57,7 +57,6 @@ namespace XamTrack.Core.ViewModels
             set => Set(ref _city, value);
         }
 
-
         private string _connected;
         public string Connected
         {
@@ -71,15 +70,15 @@ namespace XamTrack.Core.ViewModels
             get => _currentLocation;
             set => Set(ref _currentLocation, value);
         }
-
-
         #endregion
 
         #region Commands
         private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand = new TinyCommand(async () =>
         {
+            ConnectionStatus = "Connecting";
             await _ioTDeviceClientService.Connect();
+            
         });
 
         private ICommand? _disconnect;
@@ -94,19 +93,16 @@ namespace XamTrack.Core.ViewModels
         private IGeolocationService _geolocationService;
         private IDeviceInfoService _deviceInfoService;
         private IIoTDeviceClientService _ioTDeviceClientService;
-         
+
         Timer _messageTimer;
-        //Timer _progressTimer;
 
         readonly int MessageTimerPeriod = 5000;
-        //readonly int ProgressTimerPeriod = 10;
-        //int _progressTimerCount = 0;
 
         System.Threading.CancellationToken _cancellationToken;
 
         public MainViewModel(IGeolocationService geolocationService, IIoTDeviceClientService ioTDeviceClientService, IDeviceInfoService deviceInfoService)
         {
-           _cancellationToken = new System.Threading.CancellationToken();
+            _cancellationToken = new System.Threading.CancellationToken();
             _geolocationService = geolocationService;
             _deviceInfoService = deviceInfoService;
             _ioTDeviceClientService = ioTDeviceClientService;
@@ -123,11 +119,10 @@ namespace XamTrack.Core.ViewModels
         public async override Task Initialize()
         {
             await base.Initialize();
-            Name = "BenBtg";
-            Country = "United Kingdom";
-            City = "Chippenham";
-
+            DeviceId = _deviceInfoService.GetDeviceId();
+            
             CurrentLocation = await _geolocationService?.GetLastKnownLocationAsync();
+            City = await _geolocationService?.GetCityName(CurrentLocation); ;
 
             TimerProgress = 1.0;
 
@@ -135,35 +130,24 @@ namespace XamTrack.Core.ViewModels
             _messageTimer.Elapsed += _timer_ElapsedAsync;
             _messageTimer.AutoReset = true;
             _messageTimer.Start();
-
-            //_progressTimer = new Timer(ProgressTimerPeriod);
-            //_progressTimer.Elapsed += _progressTimer_Elapsed;
-            //_progressTimer.Start();
         }
-
-        //private void _progressTimer_Elapsed(object sender, ElapsedEventArgs e)
-        //{
-        //    _progressTimerCount++;
-        //    var ProgressTimerRatio = (double)ProgressTimerPeriod / (double)MessageTimerPeriod;
-        //    //System.Diagnostics.Debug.WriteLine("ProgressTimerElapsed");
-        //    TimerProgress = ProgressTimerRatio * _progressTimerCount;
-        //}
 
         private async void _timer_ElapsedAsync(object sender, ElapsedEventArgs e)
         {
-            //TimerProgress = 0.0;
-            //_progressTimerCount = 0;
-            //_progressTimer.Start(); 
-            //System.Diagnostics.Debug.WriteLine("MessageTimerElapsed");
-            
+            Debug.WriteLine("MessageTimerElapsed");
+
+            await MainThread.InvokeOnMainThreadAsync(() => TimerProgress = 0);
             await UpdateCurrentLocationAsync();
 
-            var message = new IoTMessage(CurrentLocation, MessageText, _deviceInfoService.GetDeviceId(), _deviceInfoService.GetDeviceModel(), _deviceInfoService.GetDeviceName());
+            var message = new IoTMessage(CurrentLocation, MessageText,
+                _deviceInfoService.GetDeviceId(),
+                _deviceInfoService.GetDeviceName(),
+                _deviceInfoService.GetDeviceModel()
+                );
             var messagejson = JsonConvert.SerializeObject(message);
 
-
             await _ioTDeviceClientService.SendEventAsync(messagejson, _cancellationToken);
-            TimerProgress = 1.0;
+            await MainThread.InvokeOnMainThreadAsync(()=> TimerProgress = 1.0);
         }
 
         private async Task UpdateCurrentLocationAsync()
