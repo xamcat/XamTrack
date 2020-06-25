@@ -32,8 +32,7 @@ namespace XamTrack
             container.Register<IAppConfigService, AppConfigService>();
             container.Register<IDeviceInfoService, DeviceInfoService>();
             container.Register<IGeolocationService, GeolocationService>();
-            container.Register<IIoTDeviceClientService, IoTDeviceClientService>();                        
-            container.Register<ILocationTrackerService, LocationTrackerService>();            
+            container.Register<IIoTDeviceClientService, IoTDeviceClientService>();                                    
 
             container.Register<MainPage>();
             container.Register<MainViewModel>();

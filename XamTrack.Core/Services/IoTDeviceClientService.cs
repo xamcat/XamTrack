@@ -36,11 +36,10 @@ namespace XamTrack.Core.Services
         {
             _appConfigService = appConfigService;
             _deviceInfoService = deviceInfoService;
-            // var iotHubConnectionString = _appConfigService.IotHubConnectionString;
-           // _deviceClient = DeviceClient.CreateFromConnectionString(iotHubConnectionString);
-            //_deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
-            LastKnownConnectionStatus = Microsoft.Azure.Devices.Client.ConnectionStatus.Disconnected;
+
             _cancellationTokenSource = new CancellationTokenSource();
+
+            LastKnownConnectionStatus = Microsoft.Azure.Devices.Client.ConnectionStatus.Disconnected;
         }
 
         private void ConnectionStatusChangesHandler(ConnectionStatus status, ConnectionStatusChangeReason reason)
@@ -52,9 +51,11 @@ namespace XamTrack.Core.Services
 
         public async Task<bool> Connect()
         {
-            var deviceId = "BenTestDevice1";// _deviceInfoService.GetDeviceId();
+            var deviceId = _deviceInfoService.GetDeviceId();
+
             if (string.IsNullOrEmpty(_appConfigService.AssignedEndPoint))
             {
+
                 await Provision();
             }
   
@@ -65,31 +66,20 @@ namespace XamTrack.Core.Services
                 _deviceClient.Dispose();
                 _deviceClient = null;
             }
-
-            
-
-            //var sasToken = await _iotSasTokenHandler.GetIotSasToken();
-
+           
             var symetricKey = GenerateSymmetricKey(deviceId, _appConfigService.DpsSymetricKey);
-            //var symetricKey = _appConfigService.DpsSymetricKey;
 
             var sasToken = GenerateSasToken(_appConfigService.AssignedEndPoint, symetricKey, null);
-
-            //var isValid = GenerateSasToken(sasToken);
-            _deviceClient = DeviceClient.Create(_appConfigService.AssignedEndPoint,
-                new DeviceAuthenticationWithToken(deviceId, sasToken),
+            
+            _deviceClient = DeviceClient.Create(_appConfigService.AssignedEndPoint, 
+                new DeviceAuthenticationWithToken(deviceId, sasToken), 
                 TransportType.Mqtt_WebSocket_Only);
-
-            // Set handlers and callbacks
+            
             _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
+            
             await _deviceClient.OpenAsync(_cancellationTokenSource.Token);
-
+            
             // await _deviceClient.SetDesiredPropertyUpdateCallbackAsync(DesiredPropertyUpdateCallback, null, _iotHubCancellationTokenSource.Token);
-
-            return true;
-
-
-            //await _deviceClient.OpenAsync();
 
             return true;
         }
@@ -120,18 +110,12 @@ namespace XamTrack.Core.Services
         {
             var dpsGlobalEndpoint = _appConfigService.DpsGlobalEndpoint;
             var dpsIdScope = _appConfigService.DpsIdScope;
-            var deviceId = "BenTestDevice1";// _deviceInfoService.GetDeviceId();
+            var deviceId = _deviceInfoService.GetDeviceId();
             var dpsSymetricKey = GenerateSymmetricKey(deviceId, _appConfigService.DpsSymetricKey);
-           // var dpsSymetricKey = _appConfigService.DpsSymetricKey;
-
-
-            //var dpsSymmKey = GenerateSymmetricKey(IotDeviceId, iotDpsSymetric);
+           
 
             using (var security = new SecurityProviderSymmetricKey(deviceId, dpsSymetricKey, dpsSymetricKey))
-            {
-                //using (var transport = new ProvisioningTransportHandlerAmqp(TransportFallbackType.TcpOnly))
-                // using (var transport = new ProvisioningTransportHandlerHttp())
-                // using (var transport = new ProvisioningTransportHandlerMqtt(TransportFallbackType.TcpOnly))
+            {           
                 using (var transport = new ProvisioningTransportHandlerHttp())
                 {
                     var provisioningClient = ProvisioningDeviceClient.Create(dpsGlobalEndpoint, dpsIdScope, security, transport);
@@ -142,18 +126,10 @@ namespace XamTrack.Core.Services
                     if (regResult.Status == ProvisioningRegistrationStatusType.Assigned)
                     {
                         _appConfigService.AssignedEndPoint = regResult.AssignedHub;
-                        //  await _iotHubSecretsRepository.SetIotHubEndpointAsync(_iotHubEndpoint);
-                        // await _iotHubSecretsRepository.SetSymmetricKeyAsync(dpsSymmKey);
                     }
                     return true;
                 }
             }
-
-
-                //var provisioningClient = ProvisioningDeviceClient.Create(dpsGlobalEndpoint, dpsIdScope,
-                 //new SecurityProviderSymmetricKey(deviceId, dpsSymetricKey, dpsSymetricKey),
-                //new ProvisioningTransportHandlerHttp());
-
         }
 
 

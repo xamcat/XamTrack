@@ -15,8 +15,9 @@ namespace XamTrack.Tests
         [Test]
         public async Task CanConnectToHub()
         {
-            var mocker = new AutoMocker(MockBehavior.Loose);           
-
+            var mocker = new AutoMocker(MockBehavior.Loose);
+            mocker.Use(typeof(IAppConfigService), new AppConfigService());
+            mocker.Use<IDeviceInfoService>(x => x.GetDeviceId() == "AcceptanceTestDeviceId");
             var sut = mocker.CreateInstance<IoTDeviceClientService>();
 
             var result = await sut.Connect();

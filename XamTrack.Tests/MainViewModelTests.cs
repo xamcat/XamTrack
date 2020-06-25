@@ -18,50 +18,38 @@ namespace XamTrack.Tests
         }
 
         [Test]
-        public void TestCurrent()
+        public void IoCResolvesDependanciesForMainViewModel()
         {
             TinyIoCContainer.Current.Register<IAppConfigService, AppConfigService>();
             TinyIoCContainer.Current.Register<IDeviceInfoService, DeviceInfoService>();
             TinyIoCContainer.Current.Register<IGeolocationService, GeolocationService>();
             TinyIoCContainer.Current.Register<IIoTDeviceClientService, IoTDeviceClientService>();
-            TinyIoCContainer.Current.Register<ILocationTrackerService, LocationTrackerService>();
-
             TinyIoCContainer.Current.Register<MainViewModel>();
-
-      //      var resolver = new TinyIoCResolver();
 
             var sut = TinyIoCContainer.Current.Resolve<MainViewModel>();
 
             Assert.IsNotNull(sut);
-           // var yest = resolver.Resolve<MainViewModel>();
-            //Resolver.SetResolver(resolver);
-
         }
         
-
-            [Test]
+        [Test]
         public async Task CurrentLocationSetOnInitialisation()
         {
-            var mocker = new AutoMocker(MockBehavior.Loose);
-            
-            mocker.Use<IGeolocationService>(x => x.GetLastKnownLocationAsync() == Task.FromResult(new Location()));
-
-            var sut = mocker.CreateInstance<MainViewModel>();
-
-            sut.ConnectCommand.Execute(null);
-
+            // Arrange
             bool invoked = false;
-
+            var mocker = new AutoMocker(MockBehavior.Loose);            
+            mocker.Use<IGeolocationService>(x => x.GetLastKnownLocationAsync() == Task.FromResult(new Location()));
+            var sut = mocker.CreateInstance<MainViewModel>();            
             sut.PropertyChanged += (sender, e) =>
             {
                 if (e.PropertyName.Equals("CurrentLocation"))
                     invoked = true;
             };
-            
+
+            // Act            
             await sut.Initialize();
 
+            // Assert
             Assert.True(invoked);            
         }
-
     }
 }
