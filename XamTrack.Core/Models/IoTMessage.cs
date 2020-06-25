@@ -5,22 +5,15 @@ using Xamarin.Essentials;
 
 namespace XamTrack.Core.Models
 {
-    public class IoTMessage
+    public class IoTMessage: Location
     {
-        public IoTMessage(Location location, string statusText, string deviceId, string deviceName, string deviceModel)
+        public IoTMessage(Location location, string statusText, string deviceId, string deviceName, string deviceModel):base(location)
         {
             Id = Guid.NewGuid().ToString();
-            Latitude = location.Latitude;
-            Longitude = location.Longitude;
-            Altitude = location.Altitude;
-            Accuracy = location.Accuracy;
-            Speed = location.Speed;
-
             StatusText = statusText;
             DeviceId = deviceId;
             DeviceName= deviceName;
             DeviceModel = deviceModel;
-
             CreatedDateTime = DateTime.UtcNow;
         }
 
@@ -29,11 +22,6 @@ namespace XamTrack.Core.Models
         public string DeviceModel { get; set; }
         public string DeviceName { get; set; }
         public string StatusText { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-        public double? Altitude { get; set; }
-        public double? Accuracy { get; set; }
-        public double? Speed { get; set; }
         public DateTime CreatedDateTime { get; set; }
     }
 }
