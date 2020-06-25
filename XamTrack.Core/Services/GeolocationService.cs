@@ -16,21 +16,9 @@ namespace XamTrack.Core.Services
             var placemark = placemarks?.FirstOrDefault();
             if (placemark != null)
             {
-                var geocodeAddress =
-                    $"AdminArea:       {placemark.AdminArea}\n" +
-                    $"CountryCode:     {placemark.CountryCode}\n" +
-                    $"CountryName:     {placemark.CountryName}\n" +
-                    $"FeatureName:     {placemark.FeatureName}\n" +
-                    $"Locality:        {placemark.Locality}\n" +
-                    $"PostalCode:      {placemark.PostalCode}\n" +
-                    $"SubAdminArea:    {placemark.SubAdminArea}\n" +
-                    $"SubLocality:     {placemark.SubLocality}\n" +
-                    $"SubThoroughfare: {placemark.SubThoroughfare}\n" +
-                    $"Thoroughfare:    {placemark.Thoroughfare}\n";
-                Console.WriteLine(geocodeAddress);
                 return placemark.Locality;
             }
-            return "";
+            return "Unknown location";
         }
 
         public async Task<Location> GetLastKnownLocationAsync()
