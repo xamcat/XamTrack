@@ -12,7 +12,6 @@ namespace XamTrack.Tests
     class IoTDeviceClientServiceTests
     {
 
-        [Test]
         public async Task CanConnectToHub()
         {
             var mocker = new AutoMocker(MockBehavior.Loose);
