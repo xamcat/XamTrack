@@ -78,7 +78,7 @@ stages:
       displayName: 'Build XamTrack.Android App'
       inputs:
         projectFile: XamTrack.Android/XamTrack.Android.csproj
-        configuration: '$(BuildConfiguration)'
+        configuration: 'Release'
         createAppPackage: true
 
     - task: AndroidSigning@3
@@ -90,7 +90,7 @@ stages:
         apksignerKeyPassword: '$(AndroidKeyPassword)'
     - task: CopyFiles@2
       inputs:
-        Contents: 'XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
+        Contents: 'XamTrack.Android/bin/Release/*.apk'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: InstallAppleProvisioningProfile@1
@@ -176,7 +176,7 @@ stages:
       inputs:
         serverEndpoint: 'App Center'
         appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.Droid'
-        appFile: '$(Build.SourcesDirectory)/XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
+        appFile: '$(Build.SourcesDirectory)/XamTrack.Android/bin/Release/*.apk'
         releaseNotesOption: 'input'
         releaseNotesInput: 'App Center Release'
         destinationType: 'groups'
