@@ -38,9 +38,9 @@
                 </StackLayout>
             </pv:PancakeView>
 
-            
+            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
             <maps:Map HeightRequest="250" IsShowingUser="true"/>
-
+            </pv:PancakeView>
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" Margin="10" CornerRadius="10">
                  <StackLayout Margin="20">
@@ -49,16 +49,16 @@
                     <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
 
                     <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
-                        <Label Text="Lat" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Text="Lat:" FontSize="Medium" TextColor="DarkSlateBlue"/>
                         <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightSlateGray"/>
-                        <Label Text="Lon" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Text="Lon:" FontSize="Medium" TextColor="DarkSlateBlue"/>
                         <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightSlateGray"/>
                     </FlexLayout>
                 </FlexLayout>
   
                
-                    <Label Text="Last Updated" FontSize="Medium" TextColor="DarkSlateBlue"/>
-                    <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Medium" TextColor="LightGreen"/>
+                    <Label Text="Last Updated" FontSize="Small" TextColor="DarkSlateBlue" HorizontalTextAlignment="Center"/>
+                    <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Small" TextColor="LightSteelBlue" HorizontalTextAlignment="Center"/>
                 </StackLayout>
             </pv:PancakeView>
 
