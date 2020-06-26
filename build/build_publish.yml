@@ -63,10 +63,10 @@ stages:
         packageType: sdk
         version: $(DotNetVersion)
 
-    - task: NuGetToolInstaller@1
-      displayName: Use Nuget $(NugetToolVersion)
-      inputs:
-        versionSpec: $(NugetToolVersion)
+    # - task: NuGetToolInstaller@1
+    #   displayName: Use Nuget $(NugetToolVersion)
+    #   inputs:
+    #     versionSpec: $(NugetToolVersion)
 
     - task: NuGetCommand@2
       inputs:
