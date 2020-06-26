@@ -105,13 +105,21 @@ stages:
         keychain: 'temp'
 
     - script: echo Build XamTrack iOS!
-        
-    - task: MSBuild@1
-      displayName: 'Build  XamTrack.iOS App'
+
+    - task: XamariniOS@2
       inputs:
-        solution: XamTrack.sln #yaml runs from root folder of repo
-        platform: iPhone
+        solutionFile: 'XamTrack.sln'
         configuration: '$(BuildConfiguration)'
+        packageApp: true
+        runNugetRestore: false
+    
+        
+    # - task: MSBuild@1
+    #   displayName: 'Build  XamTrack.iOS App'
+    #   inputs:
+    #     solution: XamTrack.sln #yaml runs from root folder of repo
+    #     platform: iPhone
+    #     configuration: '$(BuildConfiguration)'
     
     - task: CopyFiles@2
       inputs:
