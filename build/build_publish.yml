@@ -1,0 +1,163 @@
+variables:
+    BuildConfiguration: Release
+    NugetToolVersion: 5.4.0
+    DotNetVersion: 3.1.x
+    MonoVersion: 6_4_0
+    xcodeRoot: /Applications/Xcode_11.2.1.app
+    androidDevices: 9f06dbb6
+    iOSDevices: 212a1716
+    # UITestToolsDirectory: /Users/vsts/.nuget/packages/xamarin.uitest/3.0.6/tools
+    UITestToolsDirectory: $(System.DefaultWorkingDirectory)/packages/xamarin.uitest/3.0.7/tools
+
+
+stages:
+- stage: BuildApps
+  jobs:
+  - job: BuildXamarinApp
+    displayName: Build XamTrack App
+    pool:
+      name: Hosted macOS
+      vmImage: 'macOS-latest'
+      demands:
+      - MSBuild
+      - Xamarin.Android
+      - Xamarin.iOS
+      
+    steps:
+    - task: Bash@3
+      displayName: 'Set Mono Version 6.4.0'
+      inputs:
+        targetType: 'inline'
+        script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
+
+    - task: Bash@3
+      displayName: 'Update Constants'
+      inputs:
+        targetType: filePath
+        filePath: build/appsecret.sh
+
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: $(DotNetVersion)
+
+    - task: NuGetToolInstaller@1
+      displayName: Use Nuget $(NugetToolVersion)
+      inputs:
+        versionSpec: $(NugetToolVersion)
+
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: 'XamTrack.sln'
+
+    - script: echo Build XamTrack Android!
+
+    - task: XamarinAndroid@1
+      displayName: 'Build SQLite.Android App'
+      inputs:
+        projectFile: XamTrack.Android/XamTrack.Android.csproj #yaml runs from root folder of repo
+        configuration: '$(BuildConfiguration)'
+        createAppPackage: true
+
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: InstallAppleProvisioningProfile@1
+      inputs:
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: 'VS_WildCard_Development.mobileprovision'
+
+    - task: InstallAppleCertificate@2
+      inputs:
+        certSecureFile: 'Sweek_Dev_Cert.p12'
+        certPwd: '$(CertPassword)'
+        keychain: 'temp'
+
+    - script: echo Build XamTrack iOS!
+        
+    # - task: MSBuild@1
+    #   displayName: 'Build  SQLite.iOS App'
+    #   inputs:
+    #     solution: SimpleRepositorySample.sln #yaml runs from root folder of repo
+    #     platform: iPhone
+    #     configuration: '$(BuildConfigurationiOS)'
+
+    - task: XamariniOS@2
+      inputs:
+        solutionFile: 'XamTrack.sln'
+        configuration: '$(BuildConfiguration)'
+        packageApp: true
+        runNugetRestore: false
+    
+    - task: CopyFiles@2
+      inputs:
+        Contents: 'XamTrack.iOS/bin/iPhone/$(BuildConfiguration)/*.ipa'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+  
+- stage: DistributeAppCenter
+  jobs: 
+  - job: DistributeAppCenter
+    displayName: Distribute to App Center
+    pool:
+      name: Hosted macOS
+      vmImage: 'macOS-latest'
+      demands:
+      - xcode
+      - Xamarin.iOS
+      - msbuild
+
+    steps:
+    - script: echo Upload to App Center Distribute!
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        targetPath: '$(Pipeline.Workspace)'
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Pipeline.Workspace)/drop'
+        Contents: '**'
+        TargetFolder: '$(Build.SourcesDirectory)'
+
+    - task: AppCenterTest@1
+      displayName: Upload SQL Android
+      inputs:
+        appFile: '$(Build.SourcesDirectory)/SimpleRepository.Test.SQLite.SQLiteNet.Android/bin/Release/*.apk'
+        artifactsDirectory: '$(Build.ArtifactStagingDirectory)/AppCenterTest'
+        frameworkOption: 'uitest'
+        uiTestBuildDirectory: 'SimpleRepository.UITest/bin/$(BuildConfigurationiOS)'
+        uiTestToolsDirectory: '$(UITestToolsDirectory)'
+        credentialsOption: 'serviceEndpoint'
+        serverEndpoint: 'App Center'
+        appSlug: 'Mobile-Customer-Advisory-Team/MobCAT.SQL.Test.Android'
+        devices: '$(androidDevices)'
+        localeOption: 'en_US'
+        skipWaitingForResults: true
+      enabled: false
+
+    - task: AppCenterTest@1
+      displayName: Upload SQL iOS
+      inputs:
+        appFile: '$(Build.SourcesDirectory)/SimpleRepository.Test.SQLite.SQLiteNet.iOS/bin/iPhone/Debug/*.ipa'
+        artifactsDirectory: '$(Build.ArtifactStagingDirectory)/AppCenterTest'
+        frameworkOption: 'uitest'
+        uiTestBuildDirectory: 'SimpleRepository.UITest/bin/$(BuildConfigurationiOS)'
+        uiTestToolsDirectory: '$(UITestToolsDirectory)'
+        credentialsOption: 'serviceEndpoint'
+        serverEndpoint: 'App Center'
+        appSlug: 'Mobile-Customer-Advisory-Team/MobCAT.SQL.Test.iOS'
+        devices: '$(iOSDevices)'
+        localeOption: 'en_US'
+        skipWaitingForResults: true
+      enabled: false
