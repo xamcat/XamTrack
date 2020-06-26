@@ -73,14 +73,31 @@ stages:
         command: 'restore'
         restoreSolution: 'XamTrack.sln'
 
-    - script: echo Build XamTrack Android!
+    # - script: echo Build XamTrack Android!
 
-    - task: XamarinAndroid@1
-      displayName: 'Build SQLite.Android App'
+    # - task: XamarinAndroid@1
+    #   displayName: 'Build XamTrack.Android App'
+    #   inputs:
+    #     projectFile: XamTrack.Android/XamTrack.Android.csproj
+    #     configuration: '$(BuildConfiguration)'
+    #     createAppPackage: true
+    - task: InstallAppleProvisioningProfile@1
       inputs:
-        projectFile: XamTrack.Android/XamTrack.Android.csproj
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: 'XamTrackWildCardInHouseDistribution.mobileprovision'
+
+    - task: InstallAppleCertificate@2
+      inputs:
+        certSecureFile: 'XamTrackDistCert.p12'
+        certPwd: '$(CertPassword)'
+        keychain: 'temp'
+
+
+    - task: MSBuild@1
+      displayName: 'Build  XamTrack App'
+      inputs:
+        solution: XamTrack.sln
         configuration: '$(BuildConfiguration)'
-        createAppPackage: true
 
     - task: AndroidSigning@3
       inputs:
@@ -94,25 +111,10 @@ stages:
         Contents: 'XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    - task: InstallAppleProvisioningProfile@1
-      inputs:
-        provisioningProfileLocation: 'secureFiles'
-        provProfileSecureFile: 'XamTrackWildCardInHouseDistribution.mobileprovision'
+    
 
-    - task: InstallAppleCertificate@2
-      inputs:
-        certSecureFile: 'XamTrackDistCert.p12'
-        certPwd: '$(CertPassword)'
-        keychain: 'temp'
-
-    - script: echo Build XamTrack iOS!
+    # - script: echo Build XamTrack iOS!
         
-    - task: MSBuild@1
-      displayName: 'Build  XamTrack.iOS App'
-      inputs:
-        solution: XamTrack.sln #yaml runs from root folder of repo
-        platform: iPhone
-        configuration: '$(BuildConfiguration)'
     
     - task: CopyFiles@2
       inputs:
