@@ -68,8 +68,8 @@
                     <xamtrack:AnimatedProgressBehaviour/>
                 </ProgressBar.Behaviors>
             </ProgressBar>
-            
-            <Button HeightRequest="60"  Text="Connect" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
+
+            <Button HeightRequest="60"  Text="{Binding TrackButtonText}" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>
 </mvvm:ViewBase>

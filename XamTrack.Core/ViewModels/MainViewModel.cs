@@ -64,6 +64,13 @@ namespace XamTrack.Core.ViewModels
             set => Set(ref _connected, value);
         }
 
+        private string _trackButtonText;
+        public string TrackButtonText
+        {
+            get => _trackButtonText;
+            set => Set(ref _trackButtonText, value);
+        }
+
         private Location _currentLocation;
         public Location CurrentLocation
         {
@@ -78,6 +85,9 @@ namespace XamTrack.Core.ViewModels
         {
             ConnectionStatus = "Connecting";
             await _ioTDeviceClientService.Connect();
+            TrackButtonText = "Stop Tracking";
+            TimerProgress = 1.0;
+            _messageTimer.Start();
             
         });
 
@@ -89,7 +99,7 @@ namespace XamTrack.Core.ViewModels
 
         #endregion
 
-
+        private bool _isTracking;
         private IGeolocationService _geolocationService;
         private IDeviceInfoService _deviceInfoService;
         private IIoTDeviceClientService _ioTDeviceClientService;
@@ -107,7 +117,7 @@ namespace XamTrack.Core.ViewModels
             _deviceInfoService = deviceInfoService;
             _ioTDeviceClientService = ioTDeviceClientService;
             _ioTDeviceClientService.ConnectionStatusChanged += _ioTDeviceClientService_ConnectionStatusChanged;
-
+            TrackButtonText = "Start Tracking";
             ConnectionStatus = "Disconnected";
         }
 
@@ -122,14 +132,11 @@ namespace XamTrack.Core.ViewModels
             DeviceId = _deviceInfoService.GetDeviceId();
             
             CurrentLocation = await _geolocationService?.GetLastKnownLocationAsync();
-            City = await _geolocationService?.GetCityName(CurrentLocation); ;
-
-            TimerProgress = 1.0;
+            City = await _geolocationService?.GetCityName(CurrentLocation);
 
             _messageTimer = new Timer(MessageTimerPeriod);
             _messageTimer.Elapsed += _timer_ElapsedAsync;
-            _messageTimer.AutoReset = true;
-            _messageTimer.Start();
+            _messageTimer.AutoReset = true;            
         }
 
         private async void _timer_ElapsedAsync(object sender, ElapsedEventArgs e)
@@ -153,6 +160,7 @@ namespace XamTrack.Core.ViewModels
         private async Task UpdateCurrentLocationAsync()
         {
             CurrentLocation = await _geolocationService.GetLocationAsync();
+            City = await _geolocationService?.GetCityName(CurrentLocation);
         }
     }
 }

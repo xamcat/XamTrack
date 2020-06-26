@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace XamTrack.Core.Services
             var placemark = placemarks?.FirstOrDefault();
             if (placemark != null)
             {
-                return placemark.Locality;
+                return placemark.SubAdminArea;
             }
             return "Unknown location";
         }
@@ -34,21 +35,10 @@ namespace XamTrack.Core.Services
 
                 return location;
             }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Handle not supported on device exception
-            }
-            catch (FeatureNotEnabledException fneEx)
-            {
-                // Handle not enabled on device exception
-            }
-            catch (PermissionException pEx)
-            {
-                // Handle permission exception
-            }
             catch (Exception ex)
             {
                 // Unable to get location
+                Debug.WriteLine(ex);
             }
             return null;
         }
