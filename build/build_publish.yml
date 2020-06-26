@@ -175,7 +175,7 @@ stages:
       displayName: App Center Distribute Droid
       inputs:
         serverEndpoint: 'App Center'
-        appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.Droid/'
+        appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.Droid'
         appFile: '$(Build.SourcesDirectory)/XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
         releaseNotesOption: 'input'
         releaseNotesInput: 'App Center Release'
