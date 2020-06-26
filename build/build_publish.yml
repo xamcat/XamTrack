@@ -107,19 +107,12 @@ stages:
 
     - script: echo Build XamTrack iOS!
         
-    # - task: MSBuild@1
-    #   displayName: 'Build  SQLite.iOS App'
-    #   inputs:
-    #     solution: SimpleRepositorySample.sln #yaml runs from root folder of repo
-    #     platform: iPhone
-    #     configuration: '$(BuildConfigurationiOS)'
-
-    - task: XamariniOS@2
+    - task: MSBuild@1
+      displayName: 'Build  EFCore.iOS App'
       inputs:
-        solutionFile: 'XamTrack.sln'
+        solution: XamTrack.sln #yaml runs from root folder of repo
+        platform: iPhone
         configuration: '$(BuildConfiguration)'
-        packageApp: true
-        runNugetRestore: false
     
     - task: CopyFiles@2
       inputs:
