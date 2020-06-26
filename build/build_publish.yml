@@ -1,6 +1,6 @@
 variables:
     BuildConfiguration: Release
-    NugetToolVersion: 5.7.0
+    NugetToolVersion: 5.6.0
     DotNetVersion: 3.1.x
     MonoVersion: 6_4_0
     xcodeRoot: /Applications/Xcode_11.2.1.app
@@ -63,10 +63,10 @@ stages:
         packageType: sdk
         version: $(DotNetVersion)
 
-    # - task: NuGetToolInstaller@1
-    #   displayName: Use Nuget $(NugetToolVersion)
-    #   inputs:
-    #     versionSpec: $(NugetToolVersion)
+    - task: NuGetToolInstaller@1
+      displayName: Use Nuget $(NugetToolVersion)
+      inputs:
+        versionSpec: $(NugetToolVersion)
 
     - task: NuGetCommand@2
       inputs:
