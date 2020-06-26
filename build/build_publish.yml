@@ -1,9 +1,8 @@
 variables:
-    BuildConfiguration: Release
+    BuildConfiguration: Debug
     NugetToolVersion: 5.6.0
     DotNetVersion: 3.1.x
     MonoVersion: 6_6_0
-    xcodeRoot: /Applications/Xcode_11.2.1.app
 
 stages:
 - stage: BuildApps
@@ -73,31 +72,14 @@ stages:
         command: 'restore'
         restoreSolution: 'XamTrack.sln'
 
-    # - script: echo Build XamTrack Android!
+    - script: echo Build XamTrack Android!
 
-    # - task: XamarinAndroid@1
-    #   displayName: 'Build XamTrack.Android App'
-    #   inputs:
-    #     projectFile: XamTrack.Android/XamTrack.Android.csproj
-    #     configuration: '$(BuildConfiguration)'
-    #     createAppPackage: true
-    - task: InstallAppleProvisioningProfile@1
+    - task: XamarinAndroid@1
+      displayName: 'Build XamTrack.Android App'
       inputs:
-        provisioningProfileLocation: 'secureFiles'
-        provProfileSecureFile: 'XamTrackWildCardInHouseDistribution.mobileprovision'
-
-    - task: InstallAppleCertificate@2
-      inputs:
-        certSecureFile: 'XamTrackDistCert.p12'
-        certPwd: '$(CertPassword)'
-        keychain: 'temp'
-
-
-    - task: MSBuild@1
-      displayName: 'Build  XamTrack App'
-      inputs:
-        solution: XamTrack.sln
+        projectFile: XamTrack.Android/XamTrack.Android.csproj
         configuration: '$(BuildConfiguration)'
+        createAppPackage: true
 
     - task: AndroidSigning@3
       inputs:
@@ -111,14 +93,29 @@ stages:
         Contents: 'XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-    
+    - task: InstallAppleProvisioningProfile@1
+      inputs:
+        provisioningProfileLocation: 'secureFiles'
+        provProfileSecureFile: 'XamTrackWildCardInHouseDistribution.mobileprovision'
 
-    # - script: echo Build XamTrack iOS!
+    - task: InstallAppleCertificate@2
+      inputs:
+        certSecureFile: 'XamTrackDistCert.p12'
+        certPwd: '$(CertPassword)'
+        keychain: 'temp'
+
+    - script: echo Build XamTrack iOS!
         
+    - task: MSBuild@1
+      displayName: 'Build  XamTrack.iOS App'
+      inputs:
+        solution: XamTrack.sln #yaml runs from root folder of repo
+        platform: iPhone
+        configuration: '$(BuildConfiguration)'
     
     - task: CopyFiles@2
       inputs:
-        Contents: 'XamTrack.iOS/bin/iPhone/Debug/*.ipa'
+        Contents: 'XamTrack.iOS/bin/iPhone/$(BuildConfiguration)/*.ipa'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
@@ -160,7 +157,7 @@ stages:
       inputs:
         serverEndpoint: 'App Center'
         appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.iOS'
-        appFile: '$(Build.SourcesDirectory)/XamTrack.iOS/bin/iPhone/Debug/*.ipa'
+        appFile: '$(Build.SourcesDirectory)/XamTrack.iOS/bin/iPhone/$(BuildConfiguration)/*.ipa'
         releaseNotesOption: 'input'
         releaseNotesInput: 'App Center Release'
         destinationType: 'groups'
@@ -171,7 +168,7 @@ stages:
       inputs:
         serverEndpoint: 'App Center'
         appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.Droid/'
-        appFile: '$(Build.SourcesDirectory)/XamTrack.Android/bin/Release/*.apk'
+        appFile: '$(Build.SourcesDirectory)/XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
         releaseNotesOption: 'input'
         releaseNotesInput: 'App Center Release'
         destinationType: 'groups'
