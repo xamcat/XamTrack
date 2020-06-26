@@ -108,7 +108,7 @@ stages:
     - script: echo Build XamTrack iOS!
         
     - task: MSBuild@1
-      displayName: 'Build  EFCore.iOS App'
+      displayName: 'Build  XamTrack.iOS App'
       inputs:
         solution: XamTrack.sln #yaml runs from root folder of repo
         platform: iPhone
@@ -116,7 +116,7 @@ stages:
     
     - task: CopyFiles@2
       inputs:
-        Contents: 'XamTrack.iOS/bin/iPhone/$(BuildConfiguration)/*.ipa'
+        Contents: 'XamTrack.iOS/bin/iPhone/Debug/*.ipa'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
     - task: PublishBuildArtifacts@1
@@ -158,7 +158,7 @@ stages:
       inputs:
         serverEndpoint: 'App Center'
         appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.iOS'
-        appFile: '$(Build.SourcesDirectory)/XamTrack.iOS/bin/iPhone/Release/*.ipa'
+        appFile: '$(Build.SourcesDirectory)/XamTrack.iOS/bin/iPhone/Debug/*.ipa'
         releaseNotesOption: 'input'
         releaseNotesInput: 'App Center Release'
         destinationType: 'groups'
