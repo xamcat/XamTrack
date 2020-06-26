@@ -1,4 +1,9 @@
 #REMEMBER TO SETUP PIPELINE VARIABLE
+if [ ! -n $(DpsIdScope) ]
+then
+    echo "You need define the DpsIdScope variable in VSTS"
+    exit
+fi
 
 #PATH TO CONSTANTS FILE
 APP_CONSTANT_FILE=XamTrack.Core/appconfig.json
