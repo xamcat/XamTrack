@@ -1,6 +1,6 @@
 variables:
     BuildConfiguration: Release
-    NugetToolVersion: 5.4.0
+    NugetToolVersion: 5.7.0
     DotNetVersion: 3.1.x
     MonoVersion: 6_4_0
     xcodeRoot: /Applications/Xcode_11.2.1.app
@@ -24,13 +24,6 @@ stages:
     #   inputs:
     #     targetType: 'inline'
     #     script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
-
-    # - task: Bash@3
-    #   displayName: 'Update Constants'
-    #   inputs:
-    #     targetType: filePath
-    #     filePath: build/appsecret.sh
-
     - task: Bash@3
       displayName: 'Update Constants'
       inputs:
@@ -64,11 +57,11 @@ stages:
               cat $APP_CONSTANT_FILE
           fi
 
-    # - task: UseDotNet@2
-    #   displayName: 'Use .NET Core sdk'
-    #   inputs:
-    #     packageType: sdk
-    #     version: $(DotNetVersion)
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk'
+      inputs:
+        packageType: sdk
+        version: $(DotNetVersion)
 
     - task: NuGetToolInstaller@1
       displayName: Use Nuget $(NugetToolVersion)
