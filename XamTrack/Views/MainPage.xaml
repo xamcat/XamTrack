@@ -43,7 +43,7 @@
             </pv:PancakeView>
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" Margin="10" CornerRadius="10">
-                 <StackLayout Margin="20">
+                 <StackLayout Margin="0">
                 <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="100">
 
                     <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
@@ -55,21 +55,20 @@
                         <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightSlateGray"/>
                     </FlexLayout>
                 </FlexLayout>
-  
-               
+                    <ProgressBar Progress="{Binding TimerProgress, Mode=TwoWay}" ProgressColor="DarkSlateBlue" HeightRequest="10">
+                        <ProgressBar.Behaviors>
+                            <xamtrack:AnimatedProgressBehaviour/>
+                        </ProgressBar.Behaviors>
+                    </ProgressBar>
+
                     <Label Text="Last Updated" FontSize="Small" TextColor="DarkSlateBlue" HorizontalTextAlignment="Center"/>
                     <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Small" TextColor="LightSteelBlue" HorizontalTextAlignment="Center"/>
+
+   
                 </StackLayout>
             </pv:PancakeView>
 
-            
-            <ProgressBar Progress="{Binding TimerProgress}" ProgressColor="DarkSlateBlue">
-                <ProgressBar.Behaviors>
-                    <xamtrack:AnimatedProgressBehaviour/>
-                </ProgressBar.Behaviors>
-            </ProgressBar>
-
-            <Button HeightRequest="60"  Text="{Binding TrackButtonText}" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
+            <Button HeightRequest="60"  Text="{Binding TrackButtonText}" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}" IsEnabled="{Binding IsNotBusy}"/>
         </FlexLayout>
     </pv:PancakeView>
 </mvvm:ViewBase>

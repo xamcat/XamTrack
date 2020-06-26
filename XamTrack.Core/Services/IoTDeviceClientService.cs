@@ -50,7 +50,7 @@ namespace XamTrack.Core.Services
         }
 
         public async Task<bool> Connect()
-        {
+        {            
             var deviceId = _deviceInfoService.GetDeviceId();
 
             if (string.IsNullOrEmpty(_appConfigService.AssignedEndPoint))
@@ -78,9 +78,8 @@ namespace XamTrack.Core.Services
             _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
             
             await _deviceClient.OpenAsync(_cancellationTokenSource.Token);
-            
-            // await _deviceClient.SetDesiredPropertyUpdateCallbackAsync(DesiredPropertyUpdateCallback, null, _iotHubCancellationTokenSource.Token);
 
+            // await _deviceClient.SetDesiredPropertyUpdateCallbackAsync(DesiredPropertyUpdateCallback, null, _iotHubCancellationTokenSource.Token);
             return true;
         }
 
