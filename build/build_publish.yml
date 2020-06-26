@@ -4,11 +4,6 @@ variables:
     DotNetVersion: 3.1.x
     MonoVersion: 6_4_0
     xcodeRoot: /Applications/Xcode_11.2.1.app
-    androidDevices: 9f06dbb6
-    iOSDevices: 212a1716
-    # UITestToolsDirectory: /Users/vsts/.nuget/packages/xamarin.uitest/3.0.6/tools
-    UITestToolsDirectory: $(System.DefaultWorkingDirectory)/packages/xamarin.uitest/3.0.7/tools
-
 
 stages:
 - stage: BuildApps
@@ -24,11 +19,11 @@ stages:
       - Xamarin.iOS
       
     steps:
-    - task: Bash@3
-      displayName: 'Set Mono Version 6.4.0'
-      inputs:
-        targetType: 'inline'
-        script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
+    # - task: Bash@3
+    #   displayName: 'Set Mono Version 6.4.0'
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
 
     - task: Bash@3
       displayName: 'Update Constants'
@@ -36,11 +31,11 @@ stages:
         targetType: filePath
         filePath: build/appsecret.sh
 
-    - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk'
-      inputs:
-        packageType: sdk
-        version: $(DotNetVersion)
+    # - task: UseDotNet@2
+    #   displayName: 'Use .NET Core sdk'
+    #   inputs:
+    #     packageType: sdk
+    #     version: $(DotNetVersion)
 
     - task: NuGetToolInstaller@1
       displayName: Use Nuget $(NugetToolVersion)
@@ -57,10 +52,17 @@ stages:
     - task: XamarinAndroid@1
       displayName: 'Build SQLite.Android App'
       inputs:
-        projectFile: XamTrack.Android/XamTrack.Android.csproj #yaml runs from root folder of repo
+        projectFile: XamTrack.Android/XamTrack.Android.csproj
         configuration: '$(BuildConfiguration)'
         createAppPackage: true
 
+    - task: AndroidSigning@3
+      inputs:
+        apkFiles: '**/*.apk'
+        apksignerKeystoreFile: 'XamTrack.keystore'
+        apksignerKeystorePassword: '$(AndroidKeyPassword)'
+        apksignerKeystoreAlias: 'XamTrack'
+        apksignerKeyPassword: '$(AndroidKeyPassword)'
     - task: CopyFiles@2
       inputs:
         Contents: 'XamTrack.Android/bin/$(BuildConfiguration)/*.apk'
@@ -69,11 +71,11 @@ stages:
     - task: InstallAppleProvisioningProfile@1
       inputs:
         provisioningProfileLocation: 'secureFiles'
-        provProfileSecureFile: 'VS_WildCard_Development.mobileprovision'
+        provProfileSecureFile: 'XamTrackWildCardInHouseDistribution.mobileprovision'
 
     - task: InstallAppleCertificate@2
       inputs:
-        certSecureFile: 'Sweek_Dev_Cert.p12'
+        certSecureFile: 'XamTrackDistCert.p12'
         certPwd: '$(CertPassword)'
         keychain: 'temp'
 
@@ -130,34 +132,26 @@ stages:
         Contents: '**'
         TargetFolder: '$(Build.SourcesDirectory)'
 
-    - task: AppCenterTest@1
-      displayName: Upload SQL Android
-      inputs:
-        appFile: '$(Build.SourcesDirectory)/SimpleRepository.Test.SQLite.SQLiteNet.Android/bin/Release/*.apk'
-        artifactsDirectory: '$(Build.ArtifactStagingDirectory)/AppCenterTest'
-        frameworkOption: 'uitest'
-        uiTestBuildDirectory: 'SimpleRepository.UITest/bin/$(BuildConfigurationiOS)'
-        uiTestToolsDirectory: '$(UITestToolsDirectory)'
-        credentialsOption: 'serviceEndpoint'
-        serverEndpoint: 'App Center'
-        appSlug: 'Mobile-Customer-Advisory-Team/MobCAT.SQL.Test.Android'
-        devices: '$(androidDevices)'
-        localeOption: 'en_US'
-        skipWaitingForResults: true
-      enabled: false
 
-    - task: AppCenterTest@1
-      displayName: Upload SQL iOS
+
+    - task: AppCenterDistribute@3
+      displayName: App Center Distribute iOS
       inputs:
-        appFile: '$(Build.SourcesDirectory)/SimpleRepository.Test.SQLite.SQLiteNet.iOS/bin/iPhone/Debug/*.ipa'
-        artifactsDirectory: '$(Build.ArtifactStagingDirectory)/AppCenterTest'
-        frameworkOption: 'uitest'
-        uiTestBuildDirectory: 'SimpleRepository.UITest/bin/$(BuildConfigurationiOS)'
-        uiTestToolsDirectory: '$(UITestToolsDirectory)'
-        credentialsOption: 'serviceEndpoint'
         serverEndpoint: 'App Center'
-        appSlug: 'Mobile-Customer-Advisory-Team/MobCAT.SQL.Test.iOS'
-        devices: '$(iOSDevices)'
-        localeOption: 'en_US'
-        skipWaitingForResults: true
-      enabled: false
+        appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.iOS'
+        appFile: '$(Build.SourcesDirectory)/XamTrack.iOS/bin/iPhone/Release/*.ipa'
+        releaseNotesOption: 'input'
+        releaseNotesInput: 'App Center Release'
+        destinationType: 'groups'
+        distributionGroupId: '4b21a1eb-88b1-49ef-9963-eb543c992e3e'
+
+    - task: AppCenterDistribute@3
+      displayName: App Center Distribute Droid
+      inputs:
+        serverEndpoint: 'App Center'
+        appSlug: 'Mobile-Customer-Advisory-Team/XamTrack.Droid/'
+        appFile: '$(Build.SourcesDirectory)/XamTrack.Android/bin/Release/*.apk'
+        releaseNotesOption: 'input'
+        releaseNotesInput: 'App Center Release'
+        destinationType: 'groups'
+        distributionGroupId: 'c3dfaf6c-f459-43da-96df-d67b4967adeb' 
