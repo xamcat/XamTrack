@@ -1,6 +1,6 @@
 {
-  "Service": "",
-  "AppSecret": "",
   "DpsIdScope": "",
-  "IotHubConnectionString": ""
+  "IotHubConnectionString": "",
+  "DpsSymetricKey": "",
+  "SharedKey": ""
 }
