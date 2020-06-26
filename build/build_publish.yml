@@ -2,7 +2,7 @@ variables:
     BuildConfiguration: Release
     NugetToolVersion: 5.6.0
     DotNetVersion: 3.1.x
-    MonoVersion: 6_4_0
+    MonoVersion: 6_6_0
     xcodeRoot: /Applications/Xcode_11.2.1.app
 
 stages:
@@ -19,11 +19,11 @@ stages:
       - Xamarin.iOS
       
     steps:
-    # - task: Bash@3
-    #   displayName: 'Set Mono Version 6.4.0'
-    #   inputs:
-    #     targetType: 'inline'
-    #     script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
+    - task: Bash@3
+      displayName: 'Set Mono Version $(MonoVersion)'
+      inputs:
+        targetType: 'inline'
+        script: 'sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MonoVersion)'
     - task: Bash@3
       displayName: 'Update Constants'
       inputs:
