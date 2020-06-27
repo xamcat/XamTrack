@@ -144,11 +144,11 @@ namespace XamTrack.Core.ViewModels
             ConnectionStatus = e;
         }
 
-        public async override Task Initialize()
+        public async override Task OnAppearing()
         {
-            await base.Initialize();
+
             DeviceId = _deviceInfoService.GetDeviceId();
-            
+
             CurrentLocation = await _geolocationService?.GetLastKnownLocationAsync();
             City = await _geolocationService?.GetCityName(CurrentLocation);            
         }

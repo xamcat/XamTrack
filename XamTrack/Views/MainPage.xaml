@@ -39,7 +39,7 @@
             </pv:PancakeView>
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
-            <maps:Map HeightRequest="250" IsShowingUser="true"/>
+            <xamtrack:TrackingMapView HeightRequest="250" IsShowingUser="true" MoveToLastRegionOnLayoutChange="True"/>
             </pv:PancakeView>
 
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" Margin="10" CornerRadius="10">

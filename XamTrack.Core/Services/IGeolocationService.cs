@@ -8,6 +8,7 @@ namespace XamTrack.Core.Services
 {
     public interface IGeolocationService
     {
+        event EventHandler<Location> LocationUpatedHandler;
         Task<Location> GetLastKnownLocationAsync();
         Task<Location> GetLocationAsync();
         Task<string> GetCityName(Location location);
