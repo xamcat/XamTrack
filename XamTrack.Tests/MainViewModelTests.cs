@@ -32,7 +32,7 @@ namespace XamTrack.Tests
         }
         
         [Test]
-        public async Task CurrentLocationSetOnInitialisation()
+        public async Task CurrentLocationSetOnAppearing()
         {
             // Arrange
             bool invoked = false;
@@ -46,7 +46,7 @@ namespace XamTrack.Tests
             };
 
             // Act            
-            await sut.Initialize();
+            await sut.OnAppearing();
 
             // Assert
             Assert.True(invoked);            
