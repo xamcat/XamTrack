@@ -63,8 +63,6 @@
 
                     <Label Text="Last Updated" FontSize="Small" TextColor="DarkSlateBlue" HorizontalTextAlignment="Center"/>
                     <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Small" TextColor="LightSteelBlue" HorizontalTextAlignment="Center"/>
-
-   
                 </StackLayout>
             </pv:PancakeView>
 

@@ -138,7 +138,6 @@ namespace XamTrack.Core.ViewModels
                 }
             }
         }
-
         private void _ioTDeviceClientService_ConnectionStatusChanged(object sender, string e)
         {
             ConnectionStatus = e;

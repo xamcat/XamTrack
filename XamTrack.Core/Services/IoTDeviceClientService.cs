@@ -119,7 +119,6 @@ namespace XamTrack.Core.Services
                 {
                     var provisioningClient = ProvisioningDeviceClient.Create(dpsGlobalEndpoint, dpsIdScope, security, transport);
 
-
                     var regResult = await provisioningClient.RegisterAsync(_cancellationTokenSource.Token);
 
                     if (regResult.Status == ProvisioningRegistrationStatusType.Assigned)
@@ -129,19 +128,6 @@ namespace XamTrack.Core.Services
                     return true;
                 }
             }
-        }
-
-
-        private string CreateSasToken(string resourceUri, string key)
-        {
-            TimeSpan sinceEpoch = DateTime.UtcNow - new DateTime(1970, 1, 1);
-            var week = 60 * 60 * 24 * 7;
-            var expiry = Convert.ToString((int)sinceEpoch.TotalSeconds + week);
-            string stringToSign = HttpUtility.UrlEncode(resourceUri) + "\n" + expiry;
-            HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
-            var signature = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(stringToSign)));
-            var sasToken = String.Format(CultureInfo.InvariantCulture, "SharedAccessSignature sr={0}&sig={1}&se={2}", HttpUtility.UrlEncode(resourceUri), HttpUtility.UrlEncode(signature), expiry);//, keyName);
-            return sasToken;
         }
 
         public string GenerateSasToken(string resourceUri, string key, string policyName, int expiryInSeconds = 3600)
