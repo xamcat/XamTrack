@@ -32,19 +32,6 @@ namespace XamTrack.Core.Services
             }
         }
 
-        //public static AppConfigService Settings
-        //{
-        //    get
-        //    {
-        //        if (_instance == null)
-        //        {
-        //            _instance = new AppConfigService();
-        //        }
-
-        //        return _instance;
-        //    }
-        //}
-
         public string DpsGlobalEndpoint => "global.azure-devices-provisioning.net";
 
         public string IotHubConnectionString => GetValue();

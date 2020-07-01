@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -80,10 +80,9 @@ namespace XamTrack.Core.ViewModels
         private ICommand _connectCommand;
         public ICommand ConnectCommand => _connectCommand = new TinyCommand(async () =>
         {
-            IsBusy = true;
-
             if (_ioTDeviceClientService.ConnectionStatus != "Connected")
             {
+                IsBusy = true;
                 ConnectionStatus = "Connecting";
                 await _ioTDeviceClientService.Connect();
                 TrackButtonText = "Stop Tracking";
@@ -91,24 +90,15 @@ namespace XamTrack.Core.ViewModels
             }
             else
             {
+                IsBusy = false;
                 ConnectionStatus = "Disconnecting";
                 await _ioTDeviceClientService.Disconnect();
                 TrackButtonText = "Start Tracking";
                 TimerProgress = -1;
             }
-            IsBusy = false;
-
         });
-
-        private ICommand? _disconnect;
-        public ICommand Disconnect => _disconnect ??= new TinyCommand(async () =>
-        {
-            await _ioTDeviceClientService.Disconnect();
-        });
-
         #endregion
 
-        private bool _isTracking;
         private IGeolocationService _geolocationService;
         private IDeviceInfoService _deviceInfoService;
         private IIoTDeviceClientService _ioTDeviceClientService;

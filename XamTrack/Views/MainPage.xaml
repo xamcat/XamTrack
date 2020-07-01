@@ -11,8 +11,8 @@
     xmlns:xamtrack="clr-namespace:XamTrack"
     mc:Ignorable="d"
     x:Class="XamTrack.Views.MainPage"
-    
-    x:TypeArguments="vm:MainViewModel" >
+    x:TypeArguments="vm:MainViewModel"  
+    IsBusy="{Binding IsBusy}">
 
     <pv:PancakeView>
         <pv:PancakeView.BackgroundGradientStops>
@@ -42,9 +42,9 @@
             <xamtrack:TrackingMapView HeightRequest="250" IsShowingUser="true" MoveToLastRegionOnLayoutChange="True"/>
             </pv:PancakeView>
 
-            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" Margin="10" CornerRadius="10">
+            <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" Margin="10" CornerRadius="10" >
                  <StackLayout Margin="0">
-                <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="100">
+                <FlexLayout Direction="Column" AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="80">
 
                     <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
 
@@ -55,11 +55,11 @@
                         <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightSlateGray"/>
                     </FlexLayout>
                 </FlexLayout>
-                    <ProgressBar Progress="{Binding TimerProgress, Mode=TwoWay}" ProgressColor="DarkSlateBlue" HeightRequest="10">
-                        <ProgressBar.Behaviors>
-                            <xamtrack:AnimatedProgressBehaviour/>
-                        </ProgressBar.Behaviors>
-                    </ProgressBar>
+                    <BoxView  IsVisible="{Binding IsBusy}" Color="DarkSlateBlue" HeightRequest="10" WidthRequest="10">
+                        <BoxView.Behaviors>
+                            <xamtrack:AnimatedProgressBehaviour />
+                        </BoxView.Behaviors>
+                    </BoxView>
 
                     <Label Text="Last Updated" FontSize="Small" TextColor="DarkSlateBlue" HorizontalTextAlignment="Center"/>
                     <Label Text="{Binding Path=CurrentLocation.Timestamp}" FontSize="Small" TextColor="LightSteelBlue" HorizontalTextAlignment="Center"/>
