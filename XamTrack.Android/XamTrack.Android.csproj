@@ -63,6 +63,9 @@
     <AndroidSigningKeyAlias>XamTrack</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>Mnp8Qr2wqyib4n</AndroidSigningKeyPass>
   </PropertyGroup>
+  <PropertyGroup>
+    <AndroidCommandLineToolsVersion>latest</AndroidCommandLineToolsVersion>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
     <Reference Include="System" />

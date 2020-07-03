@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -84,7 +84,7 @@ namespace XamTrack.Core.ViewModels
             {
                 IsBusy = true;
                 ConnectionStatus = "Connecting";
-                await _ioTDeviceClientService.Connect();
+                await _ioTDeviceClientService?.Connect();
                 TrackButtonText = "Stop Tracking";
                 TimerProgress = 1.0;
             }
@@ -92,7 +92,7 @@ namespace XamTrack.Core.ViewModels
             {
                 IsBusy = false;
                 ConnectionStatus = "Disconnecting";
-                await _ioTDeviceClientService.Disconnect();
+                await _ioTDeviceClientService?.Disconnect();
                 TrackButtonText = "Start Tracking";
                 TimerProgress = -1;
             }
