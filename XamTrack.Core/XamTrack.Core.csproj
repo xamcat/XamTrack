@@ -8,7 +8,7 @@
     <PackageReference Include="Microsoft.Azure.Devices.Client" Version="1.26.0" />
     <PackageReference Include="Microsoft.Azure.Devices.Provisioning.Client" Version="1.6.0" />
     <PackageReference Include="Microsoft.Azure.Devices.Provisioning.Transport.Http" Version="1.2.3" />
-    <PackageReference Include="TinyMvvm" Version="2.3.1" />
+    <PackageReference Include="TinyMvvm" Version="2.3.2" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
 

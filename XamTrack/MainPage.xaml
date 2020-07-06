@@ -13,6 +13,14 @@
     x:Class="XamTrack.Views.MainPage"
     x:TypeArguments="vm:MainViewModel"  
     IsBusy="{Binding IsBusy}">
+    <mvvm:ViewBase.Resources>
+        <ResourceDictionary>
+            <Style x:Key="HeaderTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="DarkSlateBlue"/>
+                <Setter Property="FontSize" Value="Medium"/>
+            </Style>
+        </ResourceDictionary>
+    </mvvm:ViewBase.Resources>
 
     <pv:PancakeView>
         <pv:PancakeView.BackgroundGradientStops>
@@ -30,8 +38,8 @@
             <pv:PancakeView VerticalOptions="Center" BackgroundColor="WhiteSmoke" BorderColor="AliceBlue" Margin="10" CornerRadius="10">
                 <StackLayout Margin="10">
                     <FlexLayout FlexLayout.Grow="1" JustifyContent="SpaceAround"  AlignItems="Center" AlignContent="SpaceBetween">
-                        <Label Text="DeviceId" FontSize="Medium" TextColor="DarkSlateBlue"/>
-                        <Label Text="{Binding DeviceId}"  FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Style="{StaticResource HeaderTextStyle}" Text="DeviceId"/>
+                        <Label Style="{StaticResource HeaderTextStyle}" Text="{Binding DeviceId}" />
                     </FlexLayout>
 
                     <Entry Text="{Binding MessageText}" Placeholder="Message Text" Margin="10" Visual="Material"/>
@@ -49,9 +57,9 @@
                     <Label Text="{Binding City}" FontSize="Medium" TextColor="DarkSlateBlue"/>
 
                     <FlexLayout AlignContent="Start" JustifyContent="SpaceEvenly" AlignItems="Center" HeightRequest="50">
-                        <Label Text="Lat:" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Style="{StaticResource HeaderTextStyle}" Text="Lat:"/>
                         <Label Text="{Binding Path=CurrentLocation.Latitude}" FontSize="Medium" TextColor="LightSlateGray"/>
-                        <Label Text="Lon:" FontSize="Medium" TextColor="DarkSlateBlue"/>
+                        <Label Style="{StaticResource HeaderTextStyle}" Text="Lon:" />
                         <Label Text="{Binding Path=CurrentLocation.Longitude}" FontSize="Medium" TextColor="LightSlateGray"/>
                     </FlexLayout>
                 </FlexLayout>
@@ -66,7 +74,7 @@
                 </StackLayout>
             </pv:PancakeView>
 
-            <Button HeightRequest="60"  Text="{Binding TrackButtonText}" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}" IsEnabled="{Binding IsNotBusy}"/>
+            <Button HeightRequest="60"  Text="{Binding TrackButtonText}" FontSize="Large" TextColor="White" BackgroundColor="Transparent" Command="{Binding ConnectCommand}"/>
         </FlexLayout>
     </pv:PancakeView>
 </mvvm:ViewBase>

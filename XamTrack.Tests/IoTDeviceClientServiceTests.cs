@@ -19,7 +19,7 @@ namespace XamTrack.Tests
             mocker.Use<IDeviceInfoService>(x => x.GetDeviceId() == "AcceptanceTestDeviceId");
             var sut = mocker.CreateInstance<IoTDeviceClientService>();
 
-            var result = await sut.Connect();
+            var result = await sut.ConnectAsync();
 
             Assert.True(result);
         }

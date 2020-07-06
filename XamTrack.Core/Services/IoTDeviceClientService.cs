@@ -4,8 +4,8 @@ using Microsoft.Azure.Devices.Provisioning.Client.Transport;
 using Microsoft.Azure.Devices.Shared;
 using System;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using XamTrack.Core.Helpers;
 
 namespace XamTrack.Core.Services
@@ -15,7 +15,7 @@ namespace XamTrack.Core.Services
         private DeviceClient _deviceClient;
         private IAppConfigService _appConfigService;
         private IDeviceInfoService _deviceInfoService;
-        private CancellationTokenSource _cancellationTokenSource;
+
 
         #region IIoTDeviceClientService
         public ConnectionStatus LastKnownConnectionStatus { get; set; }
@@ -31,8 +31,6 @@ namespace XamTrack.Core.Services
             _appConfigService = appConfigService;
             _deviceInfoService = deviceInfoService;
 
-            _cancellationTokenSource = new CancellationTokenSource();
-
             LastKnownConnectionStatus = Microsoft.Azure.Devices.Client.ConnectionStatus.Disconnected;
         }
 
@@ -43,22 +41,13 @@ namespace XamTrack.Core.Services
             ConnectionStatusChanged?.Invoke(this, status.ToString());
         }
 
-        public async Task<bool> Connect()
+        public async Task<bool> ConnectAsync()
         {
             var deviceId = _deviceInfoService.GetDeviceId();
 
             if (string.IsNullOrEmpty(_appConfigService.AssignedEndPoint))
             {
-
                 await Provision();
-            }
-
-            if (_deviceClient != null)
-            {
-                _cancellationTokenSource?.Cancel();
-                await _deviceClient?.CloseAsync();
-                _deviceClient.Dispose();
-                _deviceClient = null;
             }
 
             var symetricKey = IoTHelper.GenerateSymmetricKey(deviceId, _appConfigService.DpsSymetricKey);
@@ -71,24 +60,25 @@ namespace XamTrack.Core.Services
 
             _deviceClient.SetConnectionStatusChangesHandler(ConnectionStatusChangesHandler);
 
-            await _deviceClient.OpenAsync(_cancellationTokenSource.Token);
+            await _deviceClient.OpenAsync();
 
-            // await _deviceClient.SetDesiredPropertyUpdateCallbackAsync(DesiredPropertyUpdateCallback, null, _iotHubCancellationTokenSource.Token);
             return true;
         }
 
-        public async Task<bool> Disconnect()
+
+        public async Task<bool> DisconnectAsync()
         {
-            await _deviceClient.CloseAsync();
+            if (_deviceClient != null)
+            {
+                await _deviceClient.CloseAsync();
+                _deviceClient.Dispose();
+                _deviceClient = null;
+            }
+
             return true;
         }
 
-        public Task<bool> InitialiseAsync(string IotHubEndpoint)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task SendEventAsync(string message, CancellationToken cancellationToken)
+        public async Task SendEventAsync(string message)
         {
             if (LastKnownConnectionStatus == Microsoft.Azure.Devices.Client.ConnectionStatus.Connected)
             {
@@ -113,7 +103,7 @@ namespace XamTrack.Core.Services
                 {
                     var provisioningClient = ProvisioningDeviceClient.Create(dpsGlobalEndpoint, dpsIdScope, security, transport);
 
-                    var regResult = await provisioningClient.RegisterAsync(_cancellationTokenSource.Token);
+                    var regResult = await provisioningClient.RegisterAsync();
 
                     if (regResult.Status == ProvisioningRegistrationStatusType.Assigned)
                     {

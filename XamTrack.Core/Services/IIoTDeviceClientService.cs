@@ -9,12 +9,10 @@ namespace XamTrack.Core.Services
         event EventHandler<string> ConnectionStatusChanged;
         string ConnectionStatus { get; }
 
-        Task<bool> Connect();
+        Task<bool> ConnectAsync();
 
-        Task<bool> Disconnect();
+        Task<bool> DisconnectAsync();
 
-        Task<bool> InitialiseAsync(string IotHubEndpoint);
-
-        Task SendEventAsync(string message, CancellationToken cancellationToken);
+        Task SendEventAsync(string message);
     }
 }

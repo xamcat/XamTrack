@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TinyIoC;
+﻿using TinyIoC;
 using Xamarin.Forms.Maps;
 using XamTrack.Core.Services;
 
@@ -18,14 +15,14 @@ namespace XamTrack
             
             _geolocationService = container.Resolve<IGeolocationService>();
 
-            _geolocationService.LocationUpatedHandler += _geolocationService_LocationUpatedHandler;            
+            _geolocationService.LocationUpatedHandler += _geolocationService_LocationUpatedHandler;
         }
 
         private void _geolocationService_LocationUpatedHandler(object sender, Xamarin.Essentials.Location e)
         {
             var position = new Position(e.Latitude, e.Longitude);
             MapSpan mapSpan = MapSpan.FromCenterAndRadius(position, Distance.FromKilometers(20));
-            this.MoveToRegion(mapSpan);
+            Xamarin.Essentials.MainThread.InvokeOnMainThreadAsync(() => this.MoveToRegion(mapSpan));
         }
     }
 }

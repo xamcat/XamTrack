@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Input;
 using TinyMvvm;
 using Xamarin.Essentials;
@@ -12,12 +14,6 @@ namespace XamTrack.Core.ViewModels
     public class MainViewModel : ViewModelBase
     {
         #region Properties
-        private double _timerProgress;
-        public double TimerProgress
-        {
-            get => _timerProgress;
-            set => Set(ref _timerProgress, value);
-        }
 
         private string _messageText;
         public string MessageText
@@ -38,13 +34,6 @@ namespace XamTrack.Core.ViewModels
         {
             get => _deviceId;
             set => Set(ref _deviceId, value);
-        }
-
-        private string _country;
-        public string Country
-        {
-            get => _country;
-            set => Set(ref _country, value);
         }
 
         private string _city;
@@ -82,52 +71,37 @@ namespace XamTrack.Core.ViewModels
         {
             if (_ioTDeviceClientService.ConnectionStatus != "Connected")
             {
-                IsBusy = true;
-                ConnectionStatus = "Connecting";
-                await _ioTDeviceClientService?.Connect();
-                TrackButtonText = "Stop Tracking";
-                TimerProgress = 1.0;
+                await StartTrackingAsync();
             }
             else
             {
-                IsBusy = false;
-                ConnectionStatus = "Disconnecting";
-                await _ioTDeviceClientService?.Disconnect();
-                TrackButtonText = "Start Tracking";
-                TimerProgress = -1;
+                await StopTrackingAsync();
             }
         });
+
+
         #endregion
 
         private IGeolocationService _geolocationService;
         private IDeviceInfoService _deviceInfoService;
         private IIoTDeviceClientService _ioTDeviceClientService;
 
-        System.Threading.CancellationToken _cancellationToken;
+
+        Timer _messageTimer;
+
+        readonly int MessageTimerPeriod = 5000;
 
         public MainViewModel(IGeolocationService geolocationService, IIoTDeviceClientService ioTDeviceClientService, IDeviceInfoService deviceInfoService)
         {
-            _cancellationToken = new System.Threading.CancellationToken();
             _geolocationService = geolocationService;
             _deviceInfoService = deviceInfoService;
             _ioTDeviceClientService = ioTDeviceClientService;
             _ioTDeviceClientService.ConnectionStatusChanged += _ioTDeviceClientService_ConnectionStatusChanged;
 
-            this.PropertyChanged += MainViewModel_PropertyChanged;
             TrackButtonText = "Start Tracking";
             ConnectionStatus = "Disconnected";
         }
 
-        private async void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "TimerProgress")
-            {
-                if (_timerProgress == 0)
-                {
-                    await SendMesaageAsync();
-                }
-            }
-        }
         private void _ioTDeviceClientService_ConnectionStatusChanged(object sender, string e)
         {
             ConnectionStatus = e;
@@ -135,17 +109,38 @@ namespace XamTrack.Core.ViewModels
 
         public async override Task OnAppearing()
         {
-
             DeviceId = _deviceInfoService.GetDeviceId();
 
             CurrentLocation = await _geolocationService?.GetLastKnownLocationAsync();
-            City = await _geolocationService?.GetCityName(CurrentLocation);            
+            City = await _geolocationService?.GetCityName(CurrentLocation);
+        }
+
+        private async Task StartTrackingAsync()
+        {
+            IsBusy = true;
+            ConnectionStatus = "Connecting";
+            await _ioTDeviceClientService?.ConnectAsync();
+            TrackButtonText = "Stop Tracking";
+
+            _messageTimer = new Timer(MessageTimerPeriod);
+            _messageTimer.Elapsed += async (o,e) => await SendMesaageAsync();
+            _messageTimer.AutoReset = true;
+            _messageTimer.Start();
+        }
+
+        private async Task StopTrackingAsync()
+        {
+            IsBusy = false;
+            _messageTimer.Stop();
+            ConnectionStatus = "Disconnecting";
+            await _ioTDeviceClientService?.DisconnectAsync();
+            TrackButtonText = "Start Tracking";
         }
 
         private async Task SendMesaageAsync()
-        { 
+        {
             Debug.WriteLine("MessageTimerElapsed");
-            
+
             await UpdateCurrentLocationAsync();
 
             var message = new IoTMessage(CurrentLocation, MessageText,
@@ -155,8 +150,7 @@ namespace XamTrack.Core.ViewModels
                 );
             var messagejson = JsonConvert.SerializeObject(message);
 
-            await _ioTDeviceClientService.SendEventAsync(messagejson, _cancellationToken);
-            TimerProgress = 1.0;
+            await _ioTDeviceClientService.SendEventAsync(messagejson);
         }
 
         private async Task UpdateCurrentLocationAsync()
@@ -164,6 +158,5 @@ namespace XamTrack.Core.ViewModels
             CurrentLocation = await _geolocationService.GetLocationAsync();
             City = await _geolocationService?.GetCityName(CurrentLocation);
         }
-        
     }
 }
