@@ -5,7 +5,6 @@ using Microsoft.Azure.Devices.Shared;
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 using XamTrack.Core.Helpers;
 
 namespace XamTrack.Core.Services
@@ -15,7 +14,6 @@ namespace XamTrack.Core.Services
         private DeviceClient _deviceClient;
         private IAppConfigService _appConfigService;
         private IDeviceInfoService _deviceInfoService;
-
 
         #region IIoTDeviceClientService
         public ConnectionStatus LastKnownConnectionStatus { get; set; }
@@ -65,7 +63,6 @@ namespace XamTrack.Core.Services
             return true;
         }
 
-
         public async Task<bool> DisconnectAsync()
         {
             if (_deviceClient != null)
@@ -95,7 +92,6 @@ namespace XamTrack.Core.Services
             var dpsIdScope = _appConfigService.DpsIdScope;
             var deviceId = _deviceInfoService.GetDeviceId();
             var dpsSymetricKey = IoTHelper.GenerateSymmetricKey(deviceId, _appConfigService.DpsSymetricKey);
-
 
             using (var security = new SecurityProviderSymmetricKey(deviceId, dpsSymetricKey, dpsSymetricKey))
             {
