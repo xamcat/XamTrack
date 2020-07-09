@@ -12,7 +12,7 @@ Bookmark, Subscribe the [Reactor YouTube channel](https://www.youtube.com/channe
 
 ## Xamarin Client App
 
-XamTrack is a sample single view [Xamarin](https://docs.microsoft.com/en-us/xamarin) app demonstrating the use of Azure IoT Hub](https://azure.microsoft.com/en-us/services/iot-hub/) and Auto Provisioning via [Azure IoT Hub Device Provisioning Service](https://docs.microsoft.com/en-us/azure/iot-dps/). 
+XamTrack is a sample single view [Xamarin](https://docs.microsoft.com/en-us/xamarin) app demonstrating the use of [Azure IoT Hub](https://azure.microsoft.com/en-us/services/iot-hub/) and Auto Provisioning via [Azure IoT Hub Device Provisioning Service](https://docs.microsoft.com/en-us/azure/iot-dps/). 
 
 <img src="xamclient.jpg" alt="XamTrack App for Android" height="350" style="display:inline-block;" />
 
