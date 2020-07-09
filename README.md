@@ -54,6 +54,7 @@ You must perform the following prerequisite actions in order to run this sample 
 1. [Create IoT Hub](https://docs.microsoft.com/en-us/azure/iot-dps/quick-setup-auto-provision#create-an-iot-hub)
 2. [Create a new IoT Hub Device Provisioning Service](https://docs.microsoft.com/en-us/azure/iot-dps/quick-setup-auto-provision#create-a-new-iot-hub-device-provisioning-service)
 3. [Link the IoT hub and your Device Provisioning Service](https://docs.microsoft.com/en-us/azure/iot-dps/quick-setup-auto-provision#link-the-iot-hub-and-your-device-provisioning-service)
+4. [Xamarin.Forms Map Initialization and Configuration](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/map/setup)
 
 The following app secrets are defined in the **[appconfig.json](https://github.com/xamcat/XamTrack/blob/main/XamTrack.Core/appconfig.json)** class and need to be replaced with the values generated in the steps above.
 
@@ -62,7 +63,7 @@ The following app secrets are defined in the **[appconfig.json](https://github.c
 3. DpsSymetricKey
 4. DpsSymetricKey
 
-Be sure to configure the variables before deploying the app to avoid runtime errors. 
+Be sure to configure the Native iOS and Android settings for Maps to work and the azure variables before deploying the app to avoid runtime errors. 
 
 
 ## Setting up Power Bi Dashboard
@@ -74,4 +75,8 @@ Try [Power Bi for free](https://powerbi.microsoft.com/en-us/) and create an acco
 Follow the steps in this [tutorial](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-live-data-visualization-in-power-bi#add-a-consumer-group-to-your-iot-hub). Add a ArcGIS Map and follow this documentation [here](https://doc.arcgis.com/en/maps-for-powerbi/get-started/about-maps-for-power-bi.htm).
 
 
+## Additional Resources
 
+* [MS Learn Xamarin](https://dotnet.microsoft.com/learn/xamarin)
+* [Xamarin.Forms Map Control](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/user-interface/map/)
+* [Xamarin.Forms Behavior](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/app-fundamentals/behaviors/)
